@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Marklogic Build Tasks" basedir="." default="deploy"
+    xmlns:ml="http://www.marklogic.com/ant"
+    xmlns:dav="antlib:org.apache.webdav.ant">
+	<path id="project.classpath">
+		<pathelement path="${compile_classpath}"/>
+    </path>
+         
+	<!-- TODO use settings.xml value for xcc.url, perhaps send in from Maven somehow -->
+	<property file="install.properties" />
+	<property name="ml.xcc.automation" value="xcc://${autouser}:${autopassword}@${hostname}:${port}/Documents"/>
+	<property name="ml.xcc.modules" value="xcc://${installuser}:${installpassword}@${hostname}:${port}/${module-db}"/>
+  	<typedef uri="http://www.marklogic.com/ant" resource="com/marklogic/ant/antlib.xml" classpathref="project.classpath"/>
+
+	<target name="setup">
+		<echo>Installing security objects (Roles, Users, Amps, etc...)</echo>
+		<ml:query xccurl="${ml.xcc.automation}" failonerror="true">
+			<fileset dir="installationScripts" id="queries">
+			    <include name="security.xqy"/>
+			</fileset>
+		</ml:query>
+		<echo>Installing database objects (Forests, Databases, AppServers, etc...)</echo>
+		<ml:query xccurl="${ml.xcc.automation}" failonerror="true">
+			<fileset dir="installationScripts" id="queries">
+			    <include name="adminAppSetup.xqy"/>
+			</fileset>
+		</ml:query>
+
+	</target>
+	
+	<!-- depends="setup" -->
+  <target name="deploy" depends="setup" unless="no.deploy.xqy">
+    <echo>Loading Modules to database: ${module-db} </echo>
+    <ml:load xccurl="${ml.xcc.modules}">
+      <ml:docset destdir="/">
+        <fileset dir="target/outputXQuery">
+          <include name="**/*.*"/>
+        </fileset>
+      </ml:docset>
+    </ml:load>
+  	
+  	<echo>Removing install user</echo>
+	<ml:query xccurl="${ml.xcc.automation}" failonerror="true">
+		<fileset dir="installationScripts" id="queries">
+		    <include name="installCleanup.xqy"/>
+		</fileset>
+	</ml:query>
+ </target>
+	
+	<target name="clean" unless="no.deploy.xqy">
+	    <echo>**** Full TearDown of environment </echo>
+
+	    <echo>Delete Servers, Databases, Forests</echo>
+		<ml:query xccurl="${ml.xcc.automation}" failonerror="true">
+			<fileset dir="installationScripts" id="queries">
+			    <include name="teardown.xqy"/>
+			</fileset>
+		</ml:query>
+
+	    <echo>Delete Users, Roles, Privs</echo>
+		<ml:query xccurl="${ml.xcc.automation}" failonerror="true">
+			<fileset dir="installationScripts" id="queries">
+			    <include name="teardownSecurity.xqy"/>
+			</fileset>
+		</ml:query>
+	 </target>
+
+</project>

@@ -1,0 +1,1 @@
+mvn -s C:\Users\user\Dev\settings\settings.xml install
