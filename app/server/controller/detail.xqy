@@ -4,7 +4,7 @@ import module namespace lx = "http://marklogic.com/ps/lib/xml" at "/server/lib/l
 import module namespace ld = "http://marklogic.com/ps/lib/detail" at "/server/lib/l-detail.xqy";
 import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
 import module namespace render-view = "http://render-view" at "/server/view/render-view.xqy";
-import module namespace  cu = "http://check-user" at "/server/lib/check-user.xqy" ;
+import module namespace cu = "http://check-user" at "/server/lib/check-user.xqy" ;
 
 
 declare function local:document-uri-href($uri as xs:string, $db as xs:string){
@@ -294,12 +294,6 @@ return
                   <h2>Related Items</h2>
                   <div>
                     {local:show-related-items($doc, $db)}
-                  </div>
-                </div>
-                <div class="related-items-col">
-                  <h2>Related Audits</h2>
-                  <div>
-                    {local:show-related-audits($uri)}
                   </div>
                 </div>
               </div>

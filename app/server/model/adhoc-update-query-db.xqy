@@ -58,7 +58,7 @@ let $current-query-databases :=
         cts:element-value-query(xs:QName("documentType"), "' || $doc-type  || '"),
         cts:element-value-query(xs:QName("' || $update-type || 'Name"), "' || $query || '")
           ))   )/database/text()',
-      (), <options xmlns="xdmp:eval">   <database>{xdmp:database("MLUM-Modules")}</database>  </options>)
+      (), <options xmlns="xdmp:eval">   <database>{xdmp:database($cfg:modules-db)}</database>  </options>)
 
 
 let $form := 

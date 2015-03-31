@@ -484,8 +484,8 @@
             let $config := admin:get-configuration()
             let $http-id := admin:appserver-get-id($config, admin:group-get-id($config, "Default"), $app-http-server-name)    
             let $user-uid := xdmp:user("mlum-default-user")
-            let $config := admin:appserver-set-error-handler($config, $http-id, "/error.xqy")
-            let $config := admin:appserver-set-url-rewriter($config, $http-id, "/rewrite.xqy")
+            let $config := admin:appserver-set-error-handler($config, $http-id, "/server/error.xqy")
+            let $config := admin:appserver-set-url-rewriter($config, $http-id, "/server/rewrite.xqy")
             let $config := admin:appserver-set-authentication($config, $http-id, "application-level")
             let $config := admin:appserver-set-default-user($config, $http-id, $user-uid)
             

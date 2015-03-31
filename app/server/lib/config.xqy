@@ -8,6 +8,7 @@ declare variable $cfg:app-title := "${app-title}";
 declare variable $cfg:app-role := "${app-role}";
 declare variable $cfg:management-role := "${management-role}";
 declare variable $cfg:admin := "${admin-name}";
+declare variable $cfg:modules-db := "${module-db}";
 
 declare variable $cfg:create-user := fn:false();
 
@@ -157,7 +158,7 @@ declare function cfg:search-config($source as xs:string, $query as cts:query)
     fn:concat("cts:search(/", $source, ",", $query, ")"),
     (),
     <options xmlns="xdmp:eval">
-      <database>{xdmp:database("MLUM-Modules")}</database>
+      <database>{xdmp:database($cfg:modules-db)}</database>
     </options>
   )
 };
@@ -167,7 +168,7 @@ declare function cfg:delete-document($uri as xs:string) {
     fn:concat("xdmp:document-delete('", $uri, "')"),
     (),
     <options xmlns="xdmp:eval">
-      <database>{xdmp:database("MLUM-Modules")}</database>
+      <database>{xdmp:database($cfg:modules-db)}</database>
     </options>
   )
 };

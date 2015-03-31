@@ -7,6 +7,8 @@ let $query := xdmp:get-request-field("query")
 let $doc-type := xdmp:get-request-field("docType")
 let $db-list := xdmp:get-request-field("db-list")
 
+let $modules-db := xdmp:database($cfg:modules-db)
+
 (: let $_ := xdmp:log("********************1  $db-list: " ||  $db-list )  :)
 
 let $db-list := if (fn:string-length($db-list) gt 1) then fn:substring($db-list,2) else ""
@@ -27,7 +29,7 @@ let $current-query-databases :=
         cts:element-value-query(xs:QName("documentType"), "' || $doc-type  || '"),
         cts:element-value-query(xs:QName("' || $update-type || 'Name"), "' || $query || '")
           ))   )/database/text()',
-      (), <options xmlns="xdmp:eval">   <database>{xdmp:database("MLUM-Modules")}</database>  </options>)
+      (), <options xmlns="xdmp:eval">   <database>{$modules-db}</database>  </options>)
 
 
 let $remove-dbs-for-query :=
@@ -48,7 +50,7 @@ let $uri :=
         cts:element-value-query(xs:QName("documentType"), "' || $doc-type  || '"),
         cts:element-value-query(xs:QName("' || $update-type || 'Name"), "' || $query || '")
           ))   )[1]/base-uri()',
-      (), <options xmlns="xdmp:eval">   <database>{xdmp:database("MLUM-Modules")}</database>  </options>)
+      (), <options xmlns="xdmp:eval">   <database>{$modules-db}</database>  </options>)
 
 let $_ :=
 	for $add-db in $add-dbs-for-query
@@ -58,7 +60,7 @@ let $_ :=
 	   		fn:doc("' || $uri || '")//' || $update-type || 'Name[fn:last()],
 	   		element database {"' || $add-db || '"}
 		   )',
-	      (), <options xmlns="xdmp:eval">   <database>{xdmp:database("MLUM-Modules")}</database>  </options>)
+	      (), <options xmlns="xdmp:eval">   <database>{$modules-db}</database>  </options>)
 
 let $_ :=
 	for $del-db in $remove-dbs-for-query
@@ -66,7 +68,7 @@ let $_ :=
 	    xdmp:eval(
 	      'xdmp:node-delete(
 	   		fn:doc("' || $uri || '")//database[. = "' || $del-db || '"] )',
-	      (), <options xmlns="xdmp:eval">   <database>{xdmp:database("MLUM-Modules")}</database>  </options>)
+	      (), <options xmlns="xdmp:eval">   <database>{$modules-db}</database>  </options>)
 
 
 (: Don't remove any DBs already on the query that are not in this instance :)

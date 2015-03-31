@@ -1,1 +1,1 @@
-mvn -s C:\Users\user\Dev\settings\settings.xml install
+mvn -s C:\Users\hunter.williams\Dev\settings\settings.xml install

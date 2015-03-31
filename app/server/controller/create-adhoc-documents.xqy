@@ -1,6 +1,7 @@
 xquery version "1.0-ml";
 
 module namespace create-adhoc = "http://create-adhoc-documents";
+import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
 
 declare variable $form-fields-map :=
 	let $form-map := map:map()
@@ -164,7 +165,7 @@ declare private function create-adhoc:document-insert($uri as xs:string, $doc as
 			xs:QName("doc"), $doc
 		),
     <options xmlns="xdmp:eval">
-		  <database>{xdmp:database("MLUM-Modules")}</database>
+		  <database>{xdmp:database($cfg:modules-db)}</database>
 		</options>
 	)
 };
