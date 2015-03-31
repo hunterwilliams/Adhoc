@@ -9,7 +9,7 @@ import module namespace cu = "http://check-user"
 import module namespace render-view = "http://render-view"
   at "/server/view/render-view.xqy";
 import module namespace searchyy = "http://marklogic.com/ps/lib/searchyy"
-  at "/server/controller/search.xqy";
+  at "/server/lib/search.xqy";
 
 
 (: return HTML option elements based on all DBs on the server that pass some filter conditions :)

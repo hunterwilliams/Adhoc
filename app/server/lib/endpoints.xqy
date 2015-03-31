@@ -10,21 +10,21 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 
 declare option xdmp:mapping "false";
 
-declare variable $endpoints:DEFAULT             as xs:string := "/server/controller/index.xqy";
-declare variable $endpoints:LOGIN               as xs:string := "/server/controller/login.xqy";
-declare variable $endpoints:LOGOUT              as xs:string := "/server/controller/logout.xqy";
-declare variable $endpoints:LOGOUT-LOGIN        as xs:string := "/server/controller/logout-login.xqy";
+declare variable $endpoints:DEFAULT             as xs:string := "/server/endpoints/index.xqy";
+declare variable $endpoints:LOGIN               as xs:string := "/server/endpoints/login.xqy";
+declare variable $endpoints:LOGOUT              as xs:string := "/server/endpoints/logout.xqy";
+declare variable $endpoints:LOGOUT-LOGIN        as xs:string := "/server/endpoints/logout-login.xqy";
 declare variable $endpoints:LOGIN-USER          as xs:string := "/server/form-controller/login-user.xqy";
 declare variable $endpoints:UPDATE-USER         as xs:string := "/server/form-controller/update-user-password.xqy";
-declare variable $endpoints:UPDATE-PASSWORD     as xs:string := "/server/controller/update-password.xqy";
+declare variable $endpoints:UPDATE-PASSWORD     as xs:string := "/server/endpoints/update-password.xqy";
 declare variable $endpoints:CREATE-ACCOUNT-FORM as xs:string := "/server/view/create-account-form.xqy";
-declare variable $endpoints:CREATE-ACCOUNT      as xs:string := "/server/controller/create-account.xqy";
+declare variable $endpoints:CREATE-ACCOUNT      as xs:string := "/server/endpoints/create-account.xqy";
 declare variable $endpoints:LIST-LOGS           as xs:string := "/server/view/list-logs.xqy";
-declare variable $endpoints:GET-LOG             as xs:string := "/server/controller/get-log.xqy";
+declare variable $endpoints:GET-LOG             as xs:string := "/server/endpoints/get-log.xqy";
 declare variable $endpoints:FILE-UPLOAD-FORM    as xs:string := "/server/view/file-upload-form.xqy";
 declare variable $endpoints:UPLOAD-FILE         as xs:string := "/server/model/upload-file.xqy";
 declare variable $endpoints:LIST-WORKSPACES     as xs:string := "/server/view/list-workspaces.xqy";
-declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/controller/copy-workspace-controller.xqy";
+declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
 declare variable $endpoints:METRICS-CONFIG      as xs:string := "/server/model/metrics-config.xqy";
 declare variable $endpoints:DOWNLOAD-METRICS    as xs:string := "/server/model/download-metrics-file.xqy";
 declare variable $endpoints:UPLOAD-METRICS      as xs:string := "/server/model/upload-metrics-file.xqy";
@@ -34,26 +34,26 @@ declare variable $endpoints:ADHOC-EDIT-VIEW     as xs:string := "/server/model/a
 declare variable $endpoints:ADHOC-QUERY-WIZARD  as xs:string := "/server/model/adhoc-query-wizard.xqy";
 declare variable $endpoints:ADHOC-NEW-QUERY  as xs:string := "/server/model/adhoc-new-query.xqy";
 declare variable $endpoints:ADHOC_UPDATE_QUERY_DB  as xs:string := "/server/model/adhoc-update-query-db.xqy";
-declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/controller/create-new-query-view.xqy";
-declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/controller/get-doctype-options.xqy";
-declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/controller/get-doctypes.xqy";
-declare variable $endpoints:GET-QUERY-NAMES     as xs:string := "/server/controller/get-query-names.xqy";
-declare variable $endpoints:GET-FORM-QUERY      as xs:string := "/server/controller/get-form-query.xqy";
-declare variable $endpoints:GET-VIEW-NAMES      as xs:string := "/server/controller/get-view-names.xqy";
-declare variable $endpoints:GET-EDITQUERY-PARAMS     as xs:string := "/server/controller/get-editquery-params.xqy";
-declare variable $endpoints:GET-EDITVIEW-PARAMS     as xs:string := "/server/controller/get-editview-params.xqy";
-declare variable $endpoints:DELETE-QUERY        as xs:string := "/server/controller/delete-query.xqy";
-declare variable $endpoints:DELETE-VIEW         as xs:string := "/server/controller/delete-view.xqy";
-declare variable $endpoints:GET-VIEW            as xs:string := "/server/controller/get-view.xqy";
-declare variable $endpoints:DETAIL              as xs:string := "/server/controller/detail.xqy";
-declare variable $endpoints:SEARCH              as xs:string := "/server/controller/search.xqy";
-declare variable $endpoints:OUTPUT              as xs:string := "/server/controller/post-download.xqy";
-declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/controller/adhocupdatequerydb.xqy";
+declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
+declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
+declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
+declare variable $endpoints:GET-QUERY-NAMES     as xs:string := "/server/endpoints/get-query-names.xqy";
+declare variable $endpoints:GET-FORM-QUERY      as xs:string := "/server/endpoints/get-form-query.xqy";
+declare variable $endpoints:GET-VIEW-NAMES      as xs:string := "/server/endpoints/get-view-names.xqy";
+declare variable $endpoints:GET-EDITQUERY-PARAMS     as xs:string := "/server/endpoints/get-editquery-params.xqy";
+declare variable $endpoints:GET-EDITVIEW-PARAMS     as xs:string := "/server/endpoints/get-editview-params.xqy";
+declare variable $endpoints:DELETE-QUERY        as xs:string := "/server/endpoints/delete-query.xqy";
+declare variable $endpoints:DELETE-VIEW         as xs:string := "/server/endpoints/delete-view.xqy";
+declare variable $endpoints:GET-VIEW            as xs:string := "/server/endpoints/get-view.xqy";
+declare variable $endpoints:DETAIL              as xs:string := "/server/endpoints/detail.xqy";
+declare variable $endpoints:SEARCH              as xs:string := "/server/endpoints/search.xqy";
+declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoints/post-download.xqy";
+declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
 
 declare variable $endpoints:ADVANCED-SEARCH         as xs:string := "/server/view/new-search.xqy";
 
-declare variable $endpoints:SAVE-PASS  as xs:string := "/server/controller/save-pass.xqy";
-declare variable $endpoints:FIND-PASS  as xs:string := "/server/controller/find-pass.xqy";
+declare variable $endpoints:SAVE-PASS  as xs:string := "/server/endpoints/save-pass.xqy";
+declare variable $endpoints:FIND-PASS  as xs:string := "/server/endpoints/find-pass.xqy";
 
 (: README https://github.com/marklogic/ml-rest-lib :)
 

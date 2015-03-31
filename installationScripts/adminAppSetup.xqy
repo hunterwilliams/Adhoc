@@ -598,7 +598,7 @@
                 let $_ := l:create-amp(
                     "search",
                     "http://marklogic.com/ps/lib/searchyy",
-                    "/controller/search.xqy",
+                    "/lib/search.xqy",
                     "admin",
                     $modules-dbid,
                     $sec_eval_option)
