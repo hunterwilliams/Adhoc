@@ -24,11 +24,6 @@ declare function ld:find-related-items-by-document($document,$db as xs:string){
 	return $map
 };
 
-declare function ld:find-related-audits-by-uri($uri as xs:string){
-	()
-};
-
-
 declare function ld:print-role-name($role-id as xs:unsignedLong){
    let $role-name := xdmp:eval(
   'xquery version "1.0-ml";
