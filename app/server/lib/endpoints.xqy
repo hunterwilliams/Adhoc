@@ -10,7 +10,7 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 
 declare option xdmp:mapping "false";
 
-declare variable $endpoints:DEFAULT             as xs:string := "/server/endpoints/index.xqy";
+declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
 declare variable $endpoints:LOGIN               as xs:string := "/server/endpoints/login.xqy";
 declare variable $endpoints:LOGOUT              as xs:string := "/server/endpoints/logout.xqy";
 declare variable $endpoints:LOGOUT-LOGIN        as xs:string := "/server/endpoints/logout-login.xqy";
@@ -57,7 +57,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
 
         <request uri="^/$" endpoint="{$endpoints:DEFAULT}"/>
         <request uri="^/index\.htm" endpoint="{$endpoints:DEFAULT}"/>
-        <request uri="^/default\.htm" endpoint="{$endpoints:DEFAULT}"/>
 
         <request uri="^/login-form$" endpoint="{$endpoints:LOGIN-USER}">
             <http method="GET"/>
@@ -211,7 +210,7 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             else
               ()
         }
-        {
+        (:{
             if (cu:is-logged-in() and cu:is-admin()) then
               (
                 <request uri="^/adhoceditquery$" endpoint="{$endpoints:ADHOC-EDIT-QUERY}">
@@ -273,9 +272,9 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
               )
             else
               ()
-        }
+        }:)
 
-        {
+        (:{
             if (cu:is-logged-in() and fn:not(cu:is-tester())) then
             (
                 <request uri="^/file-upload-form$" endpoint="{$endpoints:FILE-UPLOAD-FORM}">
@@ -287,11 +286,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <param name="uri"/>
                     <param name="database"/>
                     <http method="POST"/>
-                </request>
-                ,
-                <request uri="^/get-log/(.+?)$" endpoint="{$endpoints:GET-LOG}">
-                    <uri-param name="file-name">$1</uri-param>
-                    <http method="GET"/>
                 </request>
                 ,
                 <request uri="^/list-workspaces$" endpoint="{$endpoints:LIST-WORKSPACES}">
@@ -310,13 +304,10 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             )
             else
               ()
-        }
+        }:)
         {
           if (cu:is-logged-in()) then
-            <request uri="^/(.)" endpoint="{$endpoints:LOGOUT-LOGIN}">
-                <http method="GET"/>
-                <http method="POST"/>
-            </request>
+            ()
           else
             <request uri="^/(.)" endpoint="{$endpoints:LOGIN-USER}">
                 <http method="GET"/>

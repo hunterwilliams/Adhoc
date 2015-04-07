@@ -1,6 +1,7 @@
 xquery version "1.0-ml";
 
 import module namespace rest="http://marklogic.com/appservices/rest" at "/MarkLogic/appservices/utils/rest.xqy";
+import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
 
 import module namespace endpoints="http://example.com/ns/endpoints" at "/server/lib/endpoints.xqy";
 
@@ -16,12 +17,22 @@ let $rewrite := rest:rewrite(endpoints:options())
 let $uri :=
   if( $path eq "/favicon.ico" ) then
     "/images/favicon.ico"
-  else if( fn:starts-with($path, "/xml/") and fn:ends-with($path, ".xml") ) then
-    $path
-  else if( fn:starts-with($path, "/js/") or fn:starts-with($path, "/fonts/") or fn:starts-with($path,"/css/"), fn:starts-with($path,"/images/")) then
-    fn:concat("/client/",$path)
   else if (empty($rewrite)) then
-    fn:error(xs:QName("RESTERROR"), "No Endpoint")
+    let $path := fn:concat("/client",$path)
+    let $exists :=
+    xdmp:eval(
+      'fn:exists(fn:doc("' || $path || '"))',
+      (), <options xmlns="xdmp:eval">   <database>{xdmp:database($cfg:modules-db)}</database>  </options>)
+    return 
+    	if ($exists = fn:true()) then
+    		$path
+	    else if (fn:starts-with($path, "/client/app/") or fn:starts-with($path, "/client/bower_components/") 
+	    	or fn:starts-with($path, "/client/components/") or fn:starts-with($path, "/client/css/")
+	    	or fn:starts-with($path, "/client/fonts/") or fn:starts-with($path, "/client/images/")
+	    	or fn:starts-with($path, "/client/js/")) then
+	    	fn:error(xs:QName("RESTERROR"), "No Endpoint")
+	    else
+	    	$endpoints:DEFAULT
   else
     $rewrite
 
