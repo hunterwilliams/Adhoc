@@ -11,10 +11,8 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare option xdmp:mapping "false";
 
 declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
-declare variable $endpoints:LOGIN               as xs:string := "/server/endpoints/login.xqy";
 declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
-declare variable $endpoints:LOGOUT              as xs:string := "/server/endpoints/logout.xqy";
-declare variable $endpoints:LOGOUT-LOGIN        as xs:string := "/server/endpoints/logout-login.xqy";
+declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/deauth.xqy";
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
 declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
@@ -34,7 +32,6 @@ declare variable $endpoints:UPDATE-PASSWORD     as xs:string := "/server/endpoin
 declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
 declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
 
-declare variable $endpoints:LOGIN-USER          as xs:string := "/server/form-controller/login-user.xqy";
 declare variable $endpoints:UPDATE-USER         as xs:string := "/server/form-controller/update-user-password.xqy";
 
 declare variable $endpoints:FILE-UPLOAD-FORM    as xs:string := "/server/view/file-upload-form.xqy";
@@ -60,23 +57,13 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
         <request uri="^/$" endpoint="{$endpoints:DEFAULT}"/>
         <request uri="^/index\.htm" endpoint="{$endpoints:DEFAULT}"/>
 
-        <request uri="^/login-form$" endpoint="{$endpoints:LOGIN-USER}">
-            <http method="GET"/>
-        </request>
-        <request uri="^/login$" endpoint="{$endpoints:LOGIN}">
-            <param name="userid"/>
-            <param name="password"/>
-            <http method="POST"/>
-        </request>
-
         <request uri="^/auth$" endpoint="{$endpoints:AUTH}">
             <param name="userid"/>
             <param name="password"/>
             <http method="POST"/>
         </request>
 
-        <request uri="^/logout$" endpoint="{$endpoints:LOGOUT}">
-            <http method="GET"/>
+        <request uri="^/deauth$" endpoint="{$endpoints:DEAUTH}">
             <http method="POST"/>
         </request>
 

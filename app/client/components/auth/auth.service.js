@@ -49,8 +49,18 @@ angular.module('demoApp')
        * @param  {Function}
        */
       logout: function() {
-        $cookieStore.remove('token');
-        currentUser = {};
+        $http({
+          method:'POST',
+          url: '/deauth'
+        }).
+        success(function(data) {
+          $cookieStore.remove('token');
+          currentUser = {};
+        }).
+        error(function(err) {
+          console.log("failed to logout...");
+        }.bind(this));
+        
       },
 
       /**
