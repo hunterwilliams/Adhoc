@@ -10,8 +10,8 @@ declare function lif:show-form()
     render-view:display("Login",
           <form class="form-signin col-md-2 col-md-offset-5" method="post" name="sendRequestForm" id="sendRequestForm" action="/login">
             <p class="text-center"><img src="/images/MarkLogic_RGB_72ppitrans.png" /></p>
-            <label for="inputEmail" class="sr-only">Username</label>
-            <input type="text" id="user-id" name="user-id" class="form-control" placeholder="Username" required="" autofocus="" />
+            <label for="userid" class="sr-only">Username</label>
+            <input type="text" id="userid" name="userid" class="form-control" placeholder="Username" required="" autofocus="" />
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="" />
             

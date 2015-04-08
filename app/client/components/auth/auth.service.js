@@ -19,13 +19,17 @@ angular.module('demoApp')
       login: function(user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
-
-        $http.post('/auth/local', {
-          email: user.email,
-          password: user.password
+        $http({
+          method:'POST',
+          url: '/auth',
+          data: $.param({
+              userid: user.userid,
+              password: user.password
+            }),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).
         success(function(data) {
-          $cookieStore.put('token', data.token);
+          $cookieStore.put('token', 'loggedin');
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
@@ -98,7 +102,15 @@ angular.module('demoApp')
        * @return {Object} user
        */
       getCurrentUser: function() {
-        return currentUser;
+        if (currentUser.hasOwnProperty('user'))
+        {
+          return currentUser.user;
+        }
+        else
+        {
+          return currentUser;
+        }
+        
       },
 
       /**
@@ -107,7 +119,10 @@ angular.module('demoApp')
        * @return {Boolean}
        */
       isLoggedIn: function() {
-        return currentUser.hasOwnProperty('role');
+        if (currentUser.hasOwnProperty('user') && currentUser.user.hasOwnProperty('role')){
+          return true;
+        }
+        return false;
       },
 
       /**
@@ -120,7 +135,7 @@ angular.module('demoApp')
           }).catch(function() {
             cb(false);
           });
-        } else if(currentUser.hasOwnProperty('role')) {
+        } else if(currentUser.hasOwnProperty('user') && currentUser.user.hasOwnProperty('role')) {
           cb(true);
         } else {
           cb(false);
@@ -133,7 +148,7 @@ angular.module('demoApp')
        * @return {Boolean}
        */
       isAdmin: function() {
-        return currentUser.role === 'admin';
+        return currentUser.hasOwnProperty('user') && currentUser.user.role === 'admin';
       },
 
       /**

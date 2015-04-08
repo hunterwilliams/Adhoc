@@ -10,7 +10,7 @@ import module namespace list-users = "http://list-users" at "/server/view/list-u
 
 declare function local:login(){
     cd:check-database(),
-    let $user-id := xdmp:get-request-field("user-id")  
+    let $user-id := xdmp:get-request-field("userid")  
     let $password := xdmp:get-request-field("password")  
     return 
         try {

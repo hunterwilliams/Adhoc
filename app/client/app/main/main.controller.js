@@ -2,11 +2,11 @@
 
 angular.module('demoApp')
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+    $scope.awesomeThings = ["a"];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
+    // $http.get('/api/things').success(function(awesomeThings) {
+    //   $scope.awesomeThings = awesomeThings;
+    // });
 
     $scope.addThing = function() {
       if($scope.newThing === '') {

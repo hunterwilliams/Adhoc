@@ -12,6 +12,7 @@ declare option xdmp:mapping "false";
 
 declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
 declare variable $endpoints:LOGIN               as xs:string := "/server/endpoints/login.xqy";
+declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
 declare variable $endpoints:LOGOUT              as xs:string := "/server/endpoints/logout.xqy";
 declare variable $endpoints:LOGOUT-LOGIN        as xs:string := "/server/endpoints/logout-login.xqy";
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
@@ -31,6 +32,7 @@ declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoin
 declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
 declare variable $endpoints:UPDATE-PASSWORD     as xs:string := "/server/endpoints/update-password.xqy";
 declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
+declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
 
 declare variable $endpoints:LOGIN-USER          as xs:string := "/server/form-controller/login-user.xqy";
 declare variable $endpoints:UPDATE-USER         as xs:string := "/server/form-controller/update-user-password.xqy";
@@ -62,15 +64,25 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             <http method="GET"/>
         </request>
         <request uri="^/login$" endpoint="{$endpoints:LOGIN}">
-            <param name="user-id"/>
+            <param name="userid"/>
             <param name="password"/>
             <http method="POST"/>
         </request>
 
+        <request uri="^/auth$" endpoint="{$endpoints:AUTH}">
+            <param name="userid"/>
+            <param name="password"/>
+            <http method="POST"/>
+        </request>
 
         <request uri="^/logout$" endpoint="{$endpoints:LOGOUT}">
             <http method="GET"/>
             <http method="POST"/>
+        </request>
+
+        <request uri="^/api/users/me" endpoint="{$endpoints:API-USERS}">
+            <http method="GET"/>
+            <param name="id"/>
         </request>
 
 
@@ -309,9 +321,7 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
           if (cu:is-logged-in()) then
             ()
           else
-            <request uri="^/(.)" endpoint="{$endpoints:LOGIN-USER}">
-                <http method="GET"/>
-            </request>
+            ()
         }
      </options>;
 

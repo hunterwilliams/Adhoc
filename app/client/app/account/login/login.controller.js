@@ -10,7 +10,7 @@ angular.module('demoApp')
 
       if(form.$valid) {
         Auth.login({
-          email: $scope.user.email,
+          userid: $scope.user.userid,
           password: $scope.user.password
         })
         .then( function() {
@@ -21,9 +21,5 @@ angular.module('demoApp')
           $scope.errors.other = err.message;
         });
       }
-    };
-
-    $scope.loginOauth = function(provider) {
-      $window.location.href = '/auth/' + provider;
     };
   });
