@@ -18,7 +18,11 @@ angular.module('demoApp')
           $location.path('/');
         })
         .catch( function(err) {
-          $scope.errors.other = err.message;
+          var errorMessage = 'Error please try again..';
+          if (typeof(err) === 'undefined' || err.message === ''){
+            errorMessage = err.message;
+          }
+          $scope.errors.other = errorMessage;
         });
       }
     };
