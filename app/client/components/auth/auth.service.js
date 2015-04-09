@@ -88,18 +88,18 @@ angular.module('demoApp')
       /**
        * Change password
        *
-       * @param  {String}   oldPassword
        * @param  {String}   newPassword
+       * @param  {String}   newPasswordConfirm
        * @param  {Function} callback    - optional
        * @return {Promise}
        */
-      changePassword: function(oldPassword, newPassword, callback) {
+      changePassword: function(newPassword, newPasswordConfirm, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        }, function(user) {
+        return User.changePassword({ id: 'me' }, $.param({
+          newpassword: newPassword,
+          newpasswordconfirm: newPasswordConfirm
+        }), function(user) {
           return cb(user);
         }, function(err) {
           return cb(err);

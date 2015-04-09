@@ -12,7 +12,8 @@ declare option xdmp:mapping "false";
 
 declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
 declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
-declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/deauth.xqy";
+declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/auth-deauth.xqy";
+declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoints/api-users-pass.xqy";
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
 declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
@@ -28,7 +29,6 @@ declare variable $endpoints:DETAIL              as xs:string := "/server/endpoin
 declare variable $endpoints:SEARCH              as xs:string := "/server/endpoints/search.xqy";
 declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoints/post-download.xqy";
 declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
-declare variable $endpoints:UPDATE-PASSWORD     as xs:string := "/server/endpoints/update-password.xqy";
 declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
 declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
 
@@ -62,7 +62,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             <param name="password"/>
             <http method="POST"/>
         </request>
-
         <request uri="^/deauth$" endpoint="{$endpoints:DEAUTH}">
             <http method="POST"/>
         </request>
@@ -71,17 +70,16 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             <http method="GET"/>
             <param name="id"/>
         </request>
+        <request uri="^/api/users/me$" endpoint="{$endpoints:API-USERS-PASS}">
+            <param name="newpassword"/>
+            <param name="newpasswordconfirm"/>
+            <http method="POST"/>
+        </request>
 
 
         <request uri="^/update-user/(.+?)$" endpoint="{$endpoints:UPDATE-USER}">
             <uri-param name="user-id">$1</uri-param>
             <http method="GET"/>
-        </request>
-        <request uri="^/update-password$" endpoint="{$endpoints:UPDATE-PASSWORD}">
-            <param name="user-id"/>
-            <param name="password"/>
-            <param name="password2"/>
-            <http method="POST"/>
         </request>
 
         {

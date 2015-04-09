@@ -8,10 +8,9 @@ import module namespace render-view = "http://render-view" at "/server/view/rend
 
 declare function local:update-password(){
     cd:check-database(),
-    let $user-id := xdmp:get-request-field("user-id")  
-    let $password := xdmp:get-request-field("password")  
-    let $password2 := xdmp:get-request-field("password2")  
-    
+    let $user-id := xdmp:get-current-user()
+    let $password := xdmp:get-request-field("newpassword")  
+    let $password2 := xdmp:get-request-field("newpasswordconfirm")
     
     return
     if(cu:is-user($user-id)) then
@@ -23,16 +22,16 @@ declare function local:update-password(){
                         $user-id,
                         $password
                     ) 
-               return render-view:display("Password Updated", <div><h1>Password Updated</h1><p>Password has been updated.</p></div>)
+               return xdmp:set-response-code(200, 'Successfully Changed Password')
            } catch ($e) {
-                xdmp:log($e),
-                render-view:display("Password Update Failed", <div><h1>Password Update Failed</h1><p>Unable to update password.</p></div>)
+                (xdmp:log($e),
+                xdmp:set-response-code(500,'Password Update Failed'))
            }
         else (
-            render-view:display("Invalid Password", <div><h1>Invalid password or passwords Do Not Match</h1><p>Please retype password.</p></div>)
+            xdmp:set-response-code(400, fn:concat('Passwords do not match:',$password,":",$password2,"#"))
         )
     else
-        render-view:display("Editing other users prohibited", <div><h1>Editing other users prohibited</h1><p>Please only edit your own account.</p></div>)
+        xdmp:set-response-code(401,'Cant edit other users')
 };  
 
 (: add check for current password:)

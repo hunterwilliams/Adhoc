@@ -7,10 +7,8 @@ angular.module('demoApp')
     },
     {
       changePassword: {
-        method: 'PUT',
-        params: {
-          controller:'password'
-        }
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       },
       get: {
         method: 'GET',
