@@ -5,6 +5,10 @@ angular.module('demoApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    }]
+    $scope.adminMenu =[{
+      'title': 'Adhoc',
+      'link': '/adhoc'
     }];
 
     $scope.isCollapsed = true;
