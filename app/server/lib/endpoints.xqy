@@ -14,6 +14,7 @@ declare variable $endpoints:DEFAULT             as xs:string := "/client/index.h
 declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
 declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/auth-deauth.xqy";
 declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoints/api-users-pass.xqy";
+declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoints/api-detail.xqy";
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
 declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
@@ -86,6 +87,9 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             if (cu:is-logged-in() and
                 (cu:is-tester() or cu:is-admin())) then
               (
+                <request uri="^/api/detail/*/*" endpoint="{$endpoints:API-DETAIL}">
+                    <http method="GET"/>
+                </request>,
                 <request uri="^/adhocquery$" endpoint="{$endpoints:ADHOC-QUERY}">
                     <param name="database"/>
                     <param name="doctype2"/>
