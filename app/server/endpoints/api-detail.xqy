@@ -12,15 +12,6 @@ import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/ser
     };
 
 	:)
-declare function local:db-exists($database as xs:string){
-	try {
-		let $x := xdmp:database($database)
-		return fn:true()
-	}
-	catch ($err){
-		fn:false()
-	}
-};
 
 declare function local:get-json($uri as xs:string, $db as xs:string){
 	let $doc 		 :=  ld:get-document($uri,$db)/element()
@@ -42,7 +33,7 @@ declare function local:get-details(){
     let $uri 	:= fn:substring-after($path,$first-part)
     return 
     	if (fn:count($tokens) > 4) then
-    		if (local:db-exists($db)) then
+    		if (ld:database-exists($db)) then
     			(xdmp:set-response-code(200,"Success"),local:get-json($uri,$db))
     		else
     			(xdmp:set-response-code(400,fn:concat("Invalid Database:",$db)))

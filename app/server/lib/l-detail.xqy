@@ -4,6 +4,15 @@ module namespace ld = "http://marklogic.com/ps/lib/detail";
 
 import module namespace slice = "http://marklogic.com/transitive-closure-slice" at "/server/lib/l-slice.xqy";
 
+declare function ld:database-exists($database as xs:string){
+  try {
+    let $x := xdmp:database($database)
+    return fn:true()
+  }
+  catch ($err){
+    fn:false()
+  }
+};
 
 declare function ld:find-related-items-by-document($document,$db as xs:string){
 	let $map := map:map()
