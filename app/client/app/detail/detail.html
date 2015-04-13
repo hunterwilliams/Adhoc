@@ -1,6 +1,52 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <p>{{database}}/{{uri}}</p>
-  
+	<div class="document-header">{{doc.type}} - {{uri}}</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-7">
+				<tabset>
+		    		<tab heading="Data View" active="true">
+		    			<div id="details"><br/><br/>
+		    				<div id="detailTab">
+		    					{{doc.text}}
+		    				</div>
+		    			</div>
+		    		</tab>
+
+		    		<tab heading="XML View" active="false"><br/>
+		    			<a class="btn btn-default xml-button" href="/api/get-xml-doc/{{database}}/{{uri}}" role="button"><span class="glyphicon glyphicon-share" aria-hidden="true"></span>XML-Only Page</a><br/>
+		    			<code id="xml-code">
+		    				{{doc.text}}
+		    			</code>
+		    		</tab>
+		    	</tabset>
+		    </div>
+	        <div class="col-md-4">
+	        	<div class="related-items-col">
+	        		<h2>Information</h2>
+	    			<div>
+	    				<div>
+	    					<h4>Collections</h4>
+	    					<span class="label label-success label-collection" ng-repeat="collection in doc.collections">{{collection}}</span>
+	    				</div>
+	    				<div>
+	    					<h4>Permissions</h4>
+	    					<span class="label label-warning label-permission" ng-repeat="permission in doc.permissions">{{permission.role}}:{{permission.method}}</span>
+						</div>
+						<div>
+							<h4>Related Items</h4>
+							<accordion close-others="false">
+								<accordion-group heading="{{related.type}} - ({{related.items.length}})" is-open="false" ng-repeat="related in doc.related">
+									<ol>
+										<li ng-repeat="item in related.items"><a href="/detail/{{item.db}}/{{item.uri}}">{{item.uri}}</a></li>
+									</ol>
+								</accordion-group>
+							</accordion>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
