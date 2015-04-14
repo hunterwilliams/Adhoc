@@ -1,16 +1,12 @@
 'use strict';
 
 angular.module('demoApp')
-  .controller('DetailCtrl', function ($scope, $http) {
+  .controller('DetailCtrl', function ($scope, $http, $stateParams, Detail) {
 
-    // Use the User $resource to fetch all users
-    $scope.doc = {type:'Test',permissions:[{'role':'test','method':'read'}],collections:['a','b'],text:'lots of text goes here',
-      related:[
-        {
-          type:'Type A', items:[{uri:'abc.html',db:'Documents'}]
-        }
-      ]
-    };
-    $scope.database = 'Test';//$routeParams.database;
-    $scope.uri      = 'document.xml';//$routeParams.uri;
+    $scope.database = $stateParams.database;
+    $scope.uri      = $stateParams.uri;
+
+    $scope.details = Detail.get({database:$scope.database,uri:$scope.uri},function(details){
+      $scope.doc = details.output;
+    });
   });
