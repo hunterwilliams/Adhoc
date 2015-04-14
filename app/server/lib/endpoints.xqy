@@ -16,6 +16,8 @@ declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoin
 declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoints/api-users-pass.xqy";
 declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoints/api-detail.xqy";
 declare variable $endpoints:API-GET-XML-DOC     as xs:string := "/server/endpoints/api-get-xml-doc.xqy";
+declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
+
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
 declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
@@ -31,9 +33,6 @@ declare variable $endpoints:SEARCH              as xs:string := "/server/endpoin
 declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoints/post-download.xqy";
 declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
 declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
-declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
-
-declare variable $endpoints:UPDATE-USER         as xs:string := "/server/form-controller/update-user-password.xqy";
 
 declare variable $endpoints:FILE-UPLOAD-FORM    as xs:string := "/server/view/file-upload-form.xqy";
 declare variable $endpoints:LIST-WORKSPACES     as xs:string := "/server/view/list-workspaces.xqy";
@@ -75,12 +74,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
             <param name="newpassword"/>
             <param name="newpasswordconfirm"/>
             <http method="POST"/>
-        </request>
-
-
-        <request uri="^/update-user/(.+?)$" endpoint="{$endpoints:UPDATE-USER}">
-            <uri-param name="user-id">$1</uri-param>
-            <http method="GET"/>
         </request>
 
         {
