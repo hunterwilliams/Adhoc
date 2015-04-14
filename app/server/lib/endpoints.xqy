@@ -27,7 +27,6 @@ declare variable $endpoints:GET-EDITVIEW-PARAMS     as xs:string := "/server/end
 declare variable $endpoints:DELETE-QUERY        as xs:string := "/server/endpoints/delete-query.xqy";
 declare variable $endpoints:DELETE-VIEW         as xs:string := "/server/endpoints/delete-view.xqy";
 declare variable $endpoints:GET-VIEW            as xs:string := "/server/endpoints/get-view.xqy";
-declare variable $endpoints:DETAIL              as xs:string := "/server/endpoints/detail.xqy";
 declare variable $endpoints:SEARCH              as xs:string := "/server/endpoints/search.xqy";
 declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoints/post-download.xqy";
 declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
@@ -206,13 +205,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="POST"/>
                     <http method="GET"/>
                     <param name="data"/>
-                </request>,
-                <request uri="^/detail$" endpoint="{$endpoints:DETAIL}">
-                    <param name="uri"/>
-                    <param name="db"/>
-                    <param name="type"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
                 </request>
               )
             else
