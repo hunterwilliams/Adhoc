@@ -14,15 +14,27 @@ import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/ser
 	:)
 
 declare function local:get-json($uri as xs:string, $db as xs:string){
-	let $doc 		 :=  ld:get-document($uri,$db)/element()
+	let $doc 		 := ld:get-document($uri,$db)/element()
+    let $docText     := fn:replace(xdmp:quote($doc),'"', '\\"')
 	let $doctype 	 := fn:local-name( $doc )
-    let $temp-collections := () (:ld:get-collections($uri,$db):)
-    let $collections := for $c in $temp-collections return <collection>{$c}</collection>
+    let $collections := ld:get-collections($uri,$db)
 	let $permissions := ld:get-permissions($uri,$db)
 	let $related 	 := ()
-    let $xml := <output><type>{$doctype}</type>{$collections}{$permissions}<text>{xdmp:quote($doc)}</text></output>
 
-	return to-json:to-json($xml)
+    let $permissions-json := to-json:seq-to-array-json(to-json:xml-obj-to-json($permissions))
+
+    let $collections-json := to-json:seq-to-array-json(to-json:string-sequence-to-json($collections))
+
+    let $xml := 
+        <output>
+            <type>{$doctype}</type>
+            <collections>{$collections-json}</collections>
+            <permissions>{$permissions-json}</permissions>
+            <text>{$docText}</text>
+        </output>
+
+    let $json := to-json:xml-obj-to-json($xml)
+	return $json
 };
 
 declare function local:get-details(){
