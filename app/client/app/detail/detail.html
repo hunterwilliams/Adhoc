@@ -28,14 +28,17 @@
 	    			<div>
 	    				<div>
 	    					<h4>Collections</h4>
+	    					<div ng-hide="!!doc.collections" class="alert alert-info" role="alert">Not in any collections</div>
 	    					<span class="label label-success label-collection" ng-repeat="collection in doc.collections">{{collection}}</span>
 	    				</div>
 	    				<div>
 	    					<h4>Permissions</h4>
+	    					<div ng-hide="!!doc.permissions" class="alert alert-warning" role="alert"><strong>Warning!</strong> Admin Only Permissions</div>
 	    					<span class="label label-warning label-permission" ng-repeat="permission in doc.permissions">{{permission.role}}:{{permission.method}}</span>
 						</div>
 						<div>
 							<h4>Related Items</h4>
+							<h5 ng-hide="!!doc.related">There are no related items</h5>
 							<accordion close-others="false">
 								<accordion-group heading="{{related.type}} - ({{related.items.length}})" is-open="false" ng-repeat="related in doc.related">
 									<ol>
