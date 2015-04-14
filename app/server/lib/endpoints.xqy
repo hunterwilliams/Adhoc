@@ -17,6 +17,7 @@ declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoin
 declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoints/api-detail.xqy";
 declare variable $endpoints:API-GET-XML-DOC     as xs:string := "/server/endpoints/api-get-xml-doc.xqy";
 declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
+declare variable $endpoints:API-ADHOC-DATABASES as xs:string := "/server/endpoints/api-adhoc-databases.xqy";
 
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
@@ -87,6 +88,9 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="GET"/>
                 </request>,
                 <request uri="^/api/get-xml-doc/*/*" endpoint="{$endpoints:API-GET-XML-DOC}">
+                    <http method="GET"/>
+                </request>,
+                <request uri="^/api/adhoc/" endpoint="{$endpoints:API-ADHOC-DATABASES}">
                     <http method="GET"/>
                 </request>,
                 <request uri="^/adhocquery$" endpoint="{$endpoints:ADHOC-QUERY}">
