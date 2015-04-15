@@ -22,3 +22,19 @@ declare function la:get-doctypes($database as xs:string) as xs:string*{
 	return
 	  $names
 };
+
+declare function la:get-query-names($database as xs:string, $docType as xs:string) as xs:string*{
+	let $log := if ($cfg:D) then xdmp:log(text{ "get-query-names docType := [ ", $docType, "]    $database :=  [",$database,"]" }) else ()
+
+	let $names := cfg:get-query-names($docType,$database)
+	let $log := if ($cfg:D) then xdmp:log(text{ "get-query-names ", fn:string-join($names, ",") }) else ()
+	return $names
+};
+
+declare function la:get-view-names($database as xs:string, $docType as xs:string) as xs:string*{
+	let $log := if ($cfg:D) then xdmp:log(text{ "get-view-names docType := [ ", $docType, "]    $database :=  [",$database,"]" }) else ()
+
+	let $names := cfg:get-view-names($docType,$database)
+	let $log := if ($cfg:D) then xdmp:log(text{ "get-view-names ", fn:string-join($names, ",") }) else ()
+	return $names
+};

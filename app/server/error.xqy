@@ -9,7 +9,7 @@ xdmp:set-response-content-type("text/html"),
     <html>
         <head>
             <title>{$cfg:app-title} - Error</title>
-            <link href="/css/status.css" type="text/css" rel="stylesheet"/>
+            <!--<link href="/css/status.css" type="text/css" rel="stylesheet"/>-->
         </head>
         <body>  
         <div id="container">
@@ -27,7 +27,7 @@ xdmp:set-response-content-type("text/html"),
                     else if (cu:is-admin()) then
                         <p>{xdmp:quote($error:errors)}</p>
                     else
-                        ()
+                        <p>{xdmp:quote($error:errors)}</p>
                     }
                     </div>
                 </div>

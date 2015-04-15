@@ -18,7 +18,7 @@ declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoin
 declare variable $endpoints:API-GET-XML-DOC     as xs:string := "/server/endpoints/api-get-xml-doc.xqy";
 declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
 declare variable $endpoints:API-ADHOC-DATABASES as xs:string := "/server/endpoints/adhoc/api-adhoc-databases.xqy";
-declare variable $endpoints:API-ADHOC-DOCTYPES  as xs:string := "/server/endpoints/adhoc/api-adhoc-doctypes.xqy";
+declare variable $endpoints:API-ADHOC-SELECTORS as xs:string := "/server/endpoints/adhoc/api-adhoc-selectors.xqy";
 
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
@@ -85,16 +85,13 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                 <request uri="^/api/detail/*/*" endpoint="{$endpoints:API-DETAIL}">
                     <http method="GET"/>
                 </request>,
-                <request uri="^/api/detail/*/*" endpoint="{$endpoints:API-DETAIL}">
-                    <http method="GET"/>
-                </request>,
                 <request uri="^/api/get-xml-doc/*/*" endpoint="{$endpoints:API-GET-XML-DOC}">
                     <http method="GET"/>
                 </request>,
                 <request uri="^/api/adhoc$" endpoint="{$endpoints:API-ADHOC-DATABASES}">
                     <http method="GET"/>
                 </request>,
-                <request uri="^/api/adhoc/*" endpoint="{$endpoints:API-ADHOC-DOCTYPES}">
+                <request uri="^/api/adhoc/*/*" endpoint="{$endpoints:API-ADHOC-SELECTORS}">
                     <http method="GET"/>
                 </request>,
                 <request uri="^/adhocquery$" endpoint="{$endpoints:ADHOC-QUERY}">
@@ -118,27 +115,10 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="POST"/>
                     <http method="GET"/>
                 </request>,
-                <request uri="^/get-doctypes$" endpoint="{$endpoints:GET-DOCTYPES}">
-                    <param name="database"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/get-query-names$" endpoint="{$endpoints:GET-QUERY-NAMES}">
-                    <param name="db"/>
-                    <param name="docType"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
                 <request uri="^/get-form-query$" endpoint="{$endpoints:GET-FORM-QUERY}">
                     <param name="db"/>
                     <param name="docType"/>
                     <param name="queryName"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/get-view-names$" endpoint="{$endpoints:GET-VIEW-NAMES}">
-                    <param name="db"/>
-                    <param name="docType"/>
                     <http method="POST"/>
                     <http method="GET"/>
                 </request>,
