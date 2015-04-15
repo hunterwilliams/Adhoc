@@ -14,3 +14,11 @@ declare function la:get-databases() as xs:string*{
   	order by $db ascending
     return $db
 };
+
+declare function la:get-doctypes($database as xs:string) as xs:string*{
+
+	let $names := cfg:get-document-types($database)
+	let $log := if ($cfg:D) then xdmp:log(text{ "get-doctypes ", fn:string-join($names, ",") }) else ()
+	return
+	  $names
+};
