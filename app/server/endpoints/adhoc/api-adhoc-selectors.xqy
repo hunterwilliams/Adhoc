@@ -31,7 +31,7 @@ declare function local:get-json(){
 	let $doctype := $tokens[5]
 
 	return 
-		if ($doctype = "") then
+		if (fn:empty($doctype) or $doctype = "") then
 			local:get-doctypes-json($db)
 		else
 			local:get-queries-views-json($db,$doctype)
