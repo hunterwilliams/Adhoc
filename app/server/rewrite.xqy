@@ -17,7 +17,7 @@ let $path := xdmp:get-request-path()
 let $rewrite := rest:rewrite(endpoints:options())
 let $uri :=
   if( $path eq "/favicon.ico" ) then
-    "/images/favicon.ico"
+    "/client/assets/images/favicon.ico"
   else if (empty($rewrite)) then
     let $path := fn:concat("/client",$path)
     return 
