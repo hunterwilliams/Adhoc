@@ -1,7 +1,16 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <select ng-model="selectedDatabase" ng-options="item as item for item in database">
+  <select ng-model="selectedDatabase" ng-options="item as item for item in databases">
   	<option value="">--Choose Database</option>
+  </select>
+  <select ng-model="selectedDocType" ng-options="item as item for item in doctypes">
+  	<option value="">--Choose DocType</option>
+  </select>
+  <select ng-model="selectedQuery" ng-options="item as item for item in queries">
+  	<option value="">--Choose Query</option>
+  </select>
+  <select ng-model="selectedView" ng-options="item as item for item in views">
+  	<option value="">--Choose View</option>
   </select>
 </div>
