@@ -26,6 +26,9 @@ angular.module('demoApp')
           $http.get('/api/adhoc/'+newValue).success(function(data, status, headers, config) {
             if (status == 200){
               $scope.doctypes = data;
+              if ($scope.doctypes.length > 0){
+                $scope.selectedDocType = $scope.doctypes[0];
+              }
             }
           });
        }
@@ -41,6 +44,14 @@ angular.module('demoApp')
             if (status == 200){
               $scope.queries = data.queries;
               $scope.views = data.views;
+              console.dir($scope.queries[0].query);
+              if ($scope.queries.length > 0){
+                $scope.selectedQuery = $scope.queries[0].query;
+              }
+              if ($scope.views.length > 0){
+                $scope.selectedView = $scope.views[0];
+              }
+              
             }
           });
        }

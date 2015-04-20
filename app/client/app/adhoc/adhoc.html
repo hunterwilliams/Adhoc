@@ -7,7 +7,7 @@
   <select ng-model="selectedDocType" ng-options="item as item for item in doctypes">
   	<option value="">--Choose DocType</option>
   </select>
-  <select ng-model="selectedQuery" ng-options="item as item for item in queries">
+  <select ng-model="selectedQuery" ng-options="item.query as item.query for item in queries">
   	<option value="">--Choose Query</option>
   </select>
   <select ng-model="selectedView" ng-options="item as item for item in views">

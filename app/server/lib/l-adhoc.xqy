@@ -38,3 +38,7 @@ declare function la:get-view-names($database as xs:string, $docType as xs:string
 	let $log := if ($cfg:D) then xdmp:log(text{ "get-view-names ", fn:string-join($names, ",") }) else ()
 	return $names
 };
+
+declare function la:get-query-form-items($docType as xs:string, $query as xs:string) as xs:string*{
+	cfg:get-form-query($docType, $query)/formLabel
+};

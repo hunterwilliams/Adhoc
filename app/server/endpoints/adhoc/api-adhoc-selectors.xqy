@@ -17,7 +17,12 @@ declare function local:get-queries-views-json($db as xs:string, $doctype as xs:s
     let $queries := la:get-query-names($db,$doctype)
     let $views 	 := la:get-view-names($db,$doctype)
 
-    let $queries-json := to-json:seq-to-array-json(to-json:string-sequence-to-json($queries))
+    let $queries-array-sequence := 
+        for $q in $queries
+        let $options := to-json:seq-to-array-json(to-json:string-sequence-to-json(la:get-query-form-items($doctype,$q)))
+        return to-json:xml-obj-to-json(<output><query>{$q}</query><form-options>{$options}</form-options></output>)
+
+    let $queries-json := to-json:seq-to-array-json($queries-array-sequence)
     let $views-json   := to-json:seq-to-array-json(to-json:string-sequence-to-json($views))
     
     let $json := to-json:xml-obj-to-json(<output><queries>{$queries-json}</queries><views>{$views-json}</views></output>)
