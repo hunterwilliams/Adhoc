@@ -58,6 +58,7 @@ angular.module('demoApp')
     });
 
     $scope.$watch('selectedQuery', function(newValue) {
+      $scope.textFields = [];
       if (typeof(newValue) !== 'undefined' && newValue != ''){
           for (var i = 0; i < $scope.queries.length; i++){
             if ($scope.queries[i].query == newValue)
