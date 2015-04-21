@@ -9,6 +9,7 @@ angular.module('demoApp')
     $scope.doctypes = [];
     $scope.queries = [];
     $scope.views = [];
+    $scope.textFields = [];
     $http.get('/api/adhoc').success(function(data, status, headers, config) {
       if (status == 200){
         $scope.databases = data;
@@ -44,7 +45,6 @@ angular.module('demoApp')
             if (status == 200){
               $scope.queries = data.queries;
               $scope.views = data.views;
-              console.dir($scope.queries[0].query);
               if ($scope.queries.length > 0){
                 $scope.selectedQuery = $scope.queries[0].query;
               }
@@ -55,5 +55,17 @@ angular.module('demoApp')
             }
           });
        }
+    });
+
+    $scope.$watch('selectedQuery', function(newValue) {
+      if (typeof(newValue) !== 'undefined' && newValue != ''){
+          for (var i = 0; i < $scope.queries.length; i++){
+            if ($scope.queries[i].query == newValue)
+            {
+              $scope.textFields = $scope.queries[i]['form-options'];
+              break;
+            }
+          }
+      }
     });
   });

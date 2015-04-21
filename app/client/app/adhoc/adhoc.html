@@ -13,4 +13,9 @@
   <select ng-model="selectedView" ng-options="item as item for item in views">
   	<option value="">--Choose View</option>
   </select>
+  <div>
+    <span ng-repeat="item in textFields">
+      <span>{{item}}</span><input type="text" class="form-control" name="{{item}}"/>
+    </span>
+  </div>
 </div>
