@@ -467,7 +467,7 @@ declare function local:build-form($form)
 
       ')
   return
-    <form id="searchForm"  name="searchForm"  action="/adhocquery"  method="post">
+    <form id="searchForm"  name="searchForm"  action="/adhocquery"  method="get">
       <script>$().ready( function()
         {$script}
       </script>

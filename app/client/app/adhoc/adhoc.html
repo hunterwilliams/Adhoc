@@ -15,7 +15,21 @@
   </select>
   <div ng-show="textFields.length">
     <span ng-repeat="item in textFields">
-      <span>{{item}}</span><input type="text" class="form-control" name="{{item}}"/>
+      <span>{{item}}</span><input type="text" class="form-control" name="id{{$index + 1}}"/>
     </span>
+    <button ng-click="search()">Search</button>
+  </div>
+  <div ng-show="results['result-count']">
+    <span> Total Results: {{results['result-count']}}</span>
+    <span> Page: {{results['current-page']}} of {{results['page-count']}} </span>
+    <table class="table table-bordered">
+        <th ng-repeat="header in results['results-header']">{{header}}</th>
+      <tr ng-repeat="result in results['results']">
+      <td ng-repeat="part in result">
+        {{part}}
+      </td>
+      </td>
+      </tr>
+    </table>
   </div>
 </div>

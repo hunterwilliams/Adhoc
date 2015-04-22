@@ -10,6 +10,7 @@ angular.module('demoApp')
     $scope.queries = [];
     $scope.views = [];
     $scope.textFields = [];
+    $scope.results = {};
     $http.get('/api/adhoc').success(function(data, status, headers, config) {
       if (status == 200){
         $scope.databases = data;
@@ -69,4 +70,22 @@ angular.module('demoApp')
           }
       }
     });
+
+    $scope.search = function(){
+      $http.get('/api/search',{
+        params:{
+          database:$scope.selectedDatabase,
+          doctype2:$scope.selectedDocType,
+          queryName2:$scope.selectedQuery,
+          viewName:$scope.selectedView,
+          excludeversions:1,
+          excludedeleted:1,
+          'pagination-size':10,
+          go:1,
+          pagenumber:1
+        }
+      }).success(function(data, status, headers, config) {
+        $scope.results = data;
+      });
+    };
   });

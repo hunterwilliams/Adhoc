@@ -18,60 +18,13 @@ import module namespace admin = "http://marklogic.com/xdmp/admin"
 declare namespace db="http://marklogic.com/xdmp/database";
 declare option xdmp:mapping "false";
 
-
-
-(:  Render the search pagination controls :)
-declare function searchyy:search-pagination($sr as element(), $page)
-  as element(div)*
+declare function searchyy:page-count($sr as element())
 {
-  let $showing-from := ( $page - 1 ) *  xs:int($sr/@page-length)  + 1
-  let $showing-to   := $showing-from + fn:count($sr/search:result) - 1
-  let $first-page   := 1
-  let $last-page    := fn:ceiling(xs:int($sr/@total) div xs:int($sr/@page-length))
-  return
-    <div>
-       <span class="pagingshowing">Showing from {$showing-from} to {$showing-to} of about {fn:format-number(xs:int($sr/@total), "#,###")} results</span>
-       <br/>
-       <span class="pagingpages">&nbsp;Pages:
-       {
-         let $border := 2
-         let $pages :=
-          fn:distinct-values((
-            for $i in ($first-page to ($first-page + $border))
-            return
-              if ($i lt $page) then $i else ()
-            ,
-            for $i in ( ($page - $border) to ($page + $border) )
-            return
-              if ($i ge $first-page and $i le $last-page) then $i else ()
-            ,
-            for $i in (($last-page - $border) to $last-page)
-            return
-              if ($i gt $page) then $i else ()
-          ))
-         for $index in (1 to fn:count($pages))
-         let $x := $pages[$index]
-         return
-          (
-            if($x eq $page) then
-              <span class="pagingcurrent">{$x}</span>
-            else
-              searchyy:paging-link($x)
-            ,
-            if($pages[$index +1] and $pages[$index + 1] ne ($x + 1)) then
-              "&nbsp;...&nbsp;"
-            else
-              "&nbsp;&nbsp;"
-          )
-        }
-        </span>
-    </div>
- };
+  fn:ceiling(xs:int($sr/@total) div xs:int($sr/@page-length))
+};
 
-(:  Render an individual link for search pagination :)
-declare function searchyy:paging-link($page as xs:int) as element(a)
-{
-  <a href="#" onclick="submitSearch({$page});">{$page}</a>
+declare function searchyy:result-count($sr as element()){
+  fn:format-number(xs:int($sr/@total), "#,###")
 };
 
 declare function searchyy:index-exists($index as xs:string,$namespace as xs:string, $db as xs:string)
@@ -112,8 +65,6 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       )
     else
       ()
-
-  let $quote := """"
 
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
@@ -163,135 +114,47 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
   let $search-response := searchyy:get-results($useDB, $final-search, $options, $page, $cfg:pagesize, $pagination-size)
 
   return
-    <div id="searchresults" class="col-md-12" style="height:500px;overflow:scroll;overflow-x:hidden;">
-      <div id="facetspanel" style="float:left;width:12%;padding-top:65px;padding-left:25px;">
-        <input type="hidden" id="selectedFacet" value="{$searchFacet}"/>
-        {
-          for $facet in
-            (
-              $search-response//search:facet
-              ,
-              for $f in map:get($params, "facets")
-              return
-                ()
-                (:cfg:faux-facets(
-                  $doc-type,
-                  $query-name,
-                  $f/@name,
-                  $additional-query,
-                  $db
-                ):)
-            )
-          return
-            <table id="results" class="table table-striped">
-              <thead>
-                <th>{($facet/@name/fn:string())}</th>
-              </thead>
-              <tbody>
-              {
-                let $facet-list :=
-                  if ($facet/@type eq "faux-facet") then
-                    for $f in $facet/search:facet-value
-                    order by $f/@count descending
-                    return $f
-                  else
-                    for $f in $facet/search:facet-value
-                    order by $f/@name/fn:string() ascending
-                    return $f
-
-                for $facet-value in $facet-list
-                let $onclick := "submitFacetSearch(" || '''' || fn:string-join( ($facet/@name/fn:string(),$facet-value/@name/fn:string()), ":" ) || '''' || ")"
-                return
-                  if ($facet-value/@name/fn:string() eq fn:tokenize($searchFacet, ":")[2]) then
-                    <tr>
-                      <td>{fn:concat($facet-value/fn:string()," [",$facet-value/@count/fn:string(),"]")}&nbsp;<a href="#" onclick="clearFacet(1);">Remove</a></td>
-                    </tr>
-                  else
-                    <tr>
-                      <td>
-                        <a href="#" onclick="{$onclick}" >
-                          {fn:concat($facet-value/fn:string()," [",$facet-value/@count/fn:string(),"]")}
-                        </a>
-                      </td>
-                    </tr>
-              }
-              </tbody>
-            </table>
-        }
-      </div>
-      {
-        if ($search-response//search:result) then
-          let $table :=
-            <table id="results" border="1" class="table table-striped">
-              <thead>
-                <th>URI</th>
-                {
-                  for $name in $view/columns/column/fn:data(@name)
-                  return <th>{ $name }</th>
-                }
-              </thead>
-              <tbody>
-              {
-                for $result in $search-response/search:result
-                let $uri := $result/fn:data(@uri)
-                let $doc :=  ld:get-document($uri,$useDB)
-                (: let $log := xdmp:log(fn:string(fn:exists($doc))) :)
-                return
-                  <tr>
-                  {
-                    <td><a href="../detail?uri={$uri}&amp;db={$db}" onclick="" target="_blank">{$uri}</a></td>
-                    ,
-                    for $column in $view/columns/column
-                    let $expr := $column/fn:string(@expr)
-                    let $expr :=
-                      if( fn:contains($expr, "$") ) then
-                        $expr
-                      else
-                        fn:concat("$doc", $expr)
-                    return
-                      <td>{ xdmp:value(fn:string($expr)) }</td>
-                  }
-                  </tr>
-               }
-               </tbody>
-             </table>
-           return
-             <div id="resultspanel" style="float:left;width:80%;margin-left:5px;">
-               {searchyy:search-pagination($search-response, $page)}
-               <div>
-                 <form target="_new" action="/outputs" method="post">
-                   {if($cfg:create-user) then <input type="submit" value="Download" /> else ()}
-                   <input type="hidden" name="data" value="{xdmp:quote($table)}"/>
-                 </form>
-               </div>
-               <div style="overflow: auto;">
-               {
-                 $table
-               }
-               </div>
-             </div>
-          else
-            (
-              <span>No Results Found for Search Text : {$searchText}</span>
-              ,
-              if ($searchFacet) then
-                <span> and with selected Facet : {$searchFacet}</span>
+    (: { result-count:4, current-page:4, page-count:10, results:[]}:)
+    if ($search-response//search:result) then
+      let $results :=
+        for $result in $search-response/search:result
+        let $uri := $result/fn:data(@uri)
+        let $doc :=  ld:get-document($uri,$useDB)
+        (: let $log := xdmp:log(fn:string(fn:exists($doc))) :)
+        return
+          <result>
+          {
+            <part><name>uri</name><value>{$uri}</value></part>
+            ,
+            for $column in $view/columns/column
+            let $expr := $column/fn:string(@expr)
+            let $name := xs:string($column/@name)
+            let $expr :=
+              if( fn:contains($expr, "$") ) then
+                $expr
               else
-                ()
-            )
-      }
-      <div style="clear:both" />
-      <span style="color:#666666;font-size:80%">
-        <a href="#qrylink" id="qrylink" onclick="togglequery()" >Show/Hide Query</a>
-      </span>
-      <div id="qrydetails"  style="display: none;">
-        <b>Search Query</b>
-        <div>{ xdmp:quote( $search-response/search:query/node() ) }</div>
-        <b>Additional Query</b>
-        <div>{xdmp:quote( (<root>{$additional-query}</root>)/element() ) }</div>
-      </div>
-      <hr/>
-    </div>
+                fn:concat("$doc", $expr)
+            let $value := xdmp:value(fn:string($expr))
+            return
+              <part><name>{fn:normalize-space($name)}</name><value>{fn:normalize-space($value)}</value></part>
+          }
+          </result>
+      return
+        <output>
+          <result-count>{searchyy:result-count($search-response)}</result-count>
+          <current-page>{$page}</current-page>
+          <page-count>{searchyy:page-count($search-response)}</page-count>
+          <result-headers><header>URI</header>{for $c in $view/columns/column return <header>{$c/@name/string()}</header>}</result-headers>
+          <results>{$results}</results>
+        </output>
+    else
+      <output>
+        <result-count>0</result-count>
+      </output>
+  };
+
+  declare function searchyy:make-element($name,$value){
+    element {$name} { ($value) }
   };
 
 

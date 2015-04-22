@@ -19,6 +19,7 @@ declare variable $endpoints:API-GET-XML-DOC     as xs:string := "/server/endpoin
 declare variable $endpoints:API-USERS           as xs:string := "/server/endpoints/api-users.xqy";
 declare variable $endpoints:API-ADHOC-DATABASES as xs:string := "/server/endpoints/adhoc/api-adhoc-databases.xqy";
 declare variable $endpoints:API-ADHOC-SELECTORS as xs:string := "/server/endpoints/adhoc/api-adhoc-selectors.xqy";
+declare variable $endpoints:API-SEARCH          as xs:string := "/server/endpoints/adhoc/api-adhoc-search.xqy";
 
 declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
 declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
@@ -92,6 +93,22 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="GET"/>
                 </request>,
                 <request uri="^/api/adhoc/*/*" endpoint="{$endpoints:API-ADHOC-SELECTORS}">
+                    <http method="GET"/>
+                </request>,
+                <request uri="^/api/search$" endpoint="{$endpoints:API-SEARCH}">
+                    <param name="database"/>
+                    <param name="doctype2"/>
+                    <param name="queryName2"/>
+                    <param name="viewName"/>
+                    { endpoints:numbered-params("id", (1 to 15)) }
+                    <param name="word"/>
+                    <param name="excludedeleted"/>
+                    <param name="excludeversions"/>
+                    <param name="selectedfacet"/>
+                    <param name="go"/>
+                    <param name="pagenumber"/>
+                    <param name="pagination-size"/>
+                    <http method="POST"/>
                     <http method="GET"/>
                 </request>,
                 <request uri="^/adhocquery$" endpoint="{$endpoints:ADHOC-QUERY}">
