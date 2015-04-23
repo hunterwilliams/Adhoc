@@ -142,7 +142,8 @@ declare function local:get-json(){
       let $results-json :=
         for $r in $result/results/result
         let $json := for $p in $r/part
-                     return fn:concat('"',$p/name,'":"',$p/value,'"')
+                     let $value := fn:replace(fn:replace(xdmp:quote($p/value/node()),'"','\\"'),"'","\\'")
+                     return fn:concat('"',$p/name,'":"',$value,'"')
         let $r-json := fn:string-join($json,",")
         return fn:concat("{",$r-json,"}")
       let $results-json := to-json:seq-to-array-json($results-json)
@@ -157,6 +158,6 @@ declare function local:get-json(){
         </output>
 
       return to-json:xml-obj-to-json($output)
-};
+  };
 
 local:get-json()

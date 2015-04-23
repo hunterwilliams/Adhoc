@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('demoApp')
-  .controller('AdhocCtrl', function ($scope, $http, Auth, User) {
+  .controller('AdhocCtrl', function ($scope, $http, $sce, Auth, User) {
 
     $scope.selectedDatabase;//Selected Database
     $scope.selectedDocType;//Selected Doctype
@@ -11,6 +11,10 @@ angular.module('demoApp')
     $scope.views = [];
     $scope.textFields = [];
     $scope.results = {};
+
+    $scope.to_trusted = function(html_code) {
+        return $sce.trustAsHtml(html_code);
+    };
     $http.get('/api/adhoc').success(function(data, status, headers, config) {
       if (status == 200){
         $scope.databases = data;

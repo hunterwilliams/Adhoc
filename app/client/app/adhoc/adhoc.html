@@ -23,12 +23,12 @@
     <span> Total Results: {{results['result-count']}}</span>
     <span> Page: {{results['current-page']}} of {{results['page-count']}} </span>
     <table class="table table-bordered">
-        <th ng-repeat="header in results['results-header']">{{header}}</th>
+      <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
       <tr ng-repeat="result in results['results']">
-      <td ng-repeat="part in result">
-        {{part}}
-      </td>
-      </td>
+        <td ng-repeat="(key,value) in result">
+          <span ng-show="key == 'uri'" ng-bind-html="to_trusted(value)"></span>
+          <span ng-hide="key == 'uri'">{{value}}</span>
+        </td>
       </tr>
     </table>
   </div>

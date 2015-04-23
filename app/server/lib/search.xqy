@@ -15,6 +15,7 @@ import module namespace ld = "http://marklogic.com/ps/lib/detail"
 import module namespace admin = "http://marklogic.com/xdmp/admin" 
       at "/MarkLogic/admin.xqy";
 
+
 declare namespace db="http://marklogic.com/xdmp/database";
 declare option xdmp:mapping "false";
 
@@ -124,7 +125,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
         return
           <result>
           {
-            <part><name>uri</name><value>{$uri}</value></part>
+            <part><name>uri</name><value><a href='/detail/{$useDB}/{$uri}'>{$uri}</a></value></part>
             ,
             for $column in $view/columns/column
             let $expr := $column/fn:string(@expr)
