@@ -42,7 +42,6 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
   let $additional-query := map:get($params, "additionalquery")
   let $page := xs:int(map:get($params, "pagenumber"))
   let $page := if ($page) then xs:int($page) else (1)
-  let $pagination-size := xs:int(map:get($params, "pagination-size"))
 
   let $db := map:get($params, "database")
   let $doc-type := map:get($params, "docType2")
@@ -112,7 +111,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       }
     </options>
 
-  let $search-response := searchyy:get-results($useDB, $final-search, $options, $page, $cfg:pagesize, $pagination-size)
+  let $search-response := searchyy:get-results($useDB, $final-search, $options, $page, $cfg:pagesize)
 
   return
     (: { result-count:4, current-page:4, page-count:10, results:[]}:)
@@ -159,7 +158,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
   };
 
 
-  declare function searchyy:get-results($db,$search as xs:string+,$options as element(search:options)?,$page,$page-size,$pagination-size){
+  declare function searchyy:get-results($db,$search as xs:string+,$options as element(search:options)?,$page,$page-size){
     xdmp:eval(
     'xquery version "1.0-ml";
     import module namespace search = "http://marklogic.com/appservices/search"
@@ -168,7 +167,6 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
     declare variable $options as element(search:options)? external;
     declare variable $page external;
     declare variable $page-size external;
-    declare variable $pagination-size external;
     let $search as xs:string+ := 
       if (fn:string-length($searchQuoted) > 0) then
         fn:tokenize($searchQuoted,"<join>")
@@ -178,10 +176,10 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       $search,
       $options,
       (($page - 1) * $page-size) + 1,
-      $pagination-size
+      $page-size
     )',
   ((xs:QName("searchQuoted"),fn:string-join($search,"<join>")),(xs:QName("options"),$options),(xs:QName("page"),$page),
-    (xs:QName("page-size"),$page-size),(xs:QName("pagination-size"),$pagination-size)),
+    (xs:QName("page-size"),$page-size)),
   <options xmlns="xdmp:eval">
     <database>{xdmp:database($db)}</database>
   </options>)

@@ -111,22 +111,6 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="POST"/>
                     <http method="GET"/>
                 </request>,
-                <request uri="^/adhocquery$" endpoint="{$endpoints:ADHOC-QUERY}">
-                    <param name="database"/>
-                    <param name="doctype2"/>
-                    <param name="queryName2"/>
-                    <param name="viewName"/>
-                    { endpoints:numbered-params("id", (1 to 15)) }
-                    <param name="word"/>
-                    <param name="excludedeleted"/>
-                    <param name="excludeversions"/>
-                    <param name="selectedfacet"/>
-                    <param name="go"/>
-                    <param name="pagenumber"/>
-                    <param name="pagination-size"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
                 <request uri="^/get-doctype-options$" endpoint="{$endpoints:GET-DOCTYPE-OPTIONS}">
                     <param name="db"/>
                     <http method="POST"/>

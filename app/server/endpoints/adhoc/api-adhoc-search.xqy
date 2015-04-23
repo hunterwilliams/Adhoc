@@ -95,8 +95,7 @@ declare function local:get-result()
       map:put($searchParams, "database", $database),
       map:put($searchParams, "docType2", $doc-type),
       map:put($searchParams, "queryName2", $query-name),
-      map:put($searchParams, "viewName", $view-name),
-      map:put($searchParams, "pagination-size", $pagination-size)
+      map:put($searchParams, "viewName", $view-name)
       (:map:put($searchParams, "facets", local:build-facets($doc-type)):)
     )
 

@@ -19,6 +19,7 @@
     </span>
     <button ng-click="search()">Search</button>
   </div>
+  <div ng-show="message != ''">{{message}}</div>
   <div ng-show="results['result-count']">
     <span> Total Results: {{results['result-count']}}</span>
     <span> Page: {{results['current-page']}} of {{results['page-count']}} </span>

@@ -13,7 +13,7 @@ declare variable $cfg:modules-db := "${module-db}";
 declare variable $cfg:create-user := fn:false();
 
 declare variable $cfg:tokenize := ",";
-declare variable $cfg:pagesize := 100;
+declare variable $cfg:pagesize := 10;
 
 (: does some debug logging when true :)
 declare variable $D := fn:true();

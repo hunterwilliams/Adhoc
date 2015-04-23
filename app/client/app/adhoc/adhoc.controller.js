@@ -12,6 +12,7 @@ angular.module('demoApp')
     $scope.textFields = [];
     $scope.results = {};
     $scope.inputField = {};
+    $scope.message = '';
 
     $scope.to_trusted = function(html_code) {
         return $sce.trustAsHtml(html_code);
@@ -89,6 +90,8 @@ angular.module('demoApp')
     };
 
     $scope.search = function(){
+      $scope.message = 'Searching....';
+      $scope.results = {};
       $http.get('/api/search',{
         params:{
           database:$scope.selectedDatabase,
@@ -112,12 +115,16 @@ angular.module('demoApp')
           id15:$scope.getField(15),
           excludeversions:1,
           excludedeleted:1,
-          'pagination-size':10,
           go:1,
           pagenumber:1
         }
       }).success(function(data, status, headers, config) {
+        $scope.message = '';
         $scope.results = data;
+      }).error(function(data, status){
+        if (status == 500){
+          $scope.message = "Server Error";
+        }
       });
     };
   });
