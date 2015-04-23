@@ -11,6 +11,7 @@ angular.module('demoApp')
     $scope.views = [];
     $scope.textFields = [];
     $scope.results = {};
+    $scope.inputField = {};
 
     $scope.to_trusted = function(html_code) {
         return $sce.trustAsHtml(html_code);
@@ -75,6 +76,18 @@ angular.module('demoApp')
       }
     });
 
+    $scope.getField = function(field) {
+      var input = $scope.inputField[field];
+      if (typeof(input) !== 'undefined' && input !== null)
+      {
+        return input;
+      }
+      else
+      {
+        return '';
+      }
+    };
+
     $scope.search = function(){
       $http.get('/api/search',{
         params:{
@@ -82,6 +95,21 @@ angular.module('demoApp')
           doctype2:$scope.selectedDocType,
           queryName2:$scope.selectedQuery,
           viewName:$scope.selectedView,
+          id1:$scope.getField(1),
+          id2:$scope.getField(2),
+          id3:$scope.getField(3),
+          id4:$scope.getField(4),
+          id5:$scope.getField(5),
+          id6:$scope.getField(6),
+          id7:$scope.getField(7),
+          id8:$scope.getField(8),
+          id9:$scope.getField(9),
+          id10:$scope.getField(10),
+          id11:$scope.getField(11),
+          id12:$scope.getField(12),
+          id13:$scope.getField(13),
+          id14:$scope.getField(14),
+          id15:$scope.getField(15),
           excludeversions:1,
           excludedeleted:1,
           'pagination-size':10,

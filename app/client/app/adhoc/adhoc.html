@@ -15,7 +15,7 @@
   </select>
   <div ng-show="textFields.length">
     <span ng-repeat="item in textFields">
-      <span>{{item}}</span><input type="text" class="form-control" name="id{{$index + 1}}"/>
+      <span>{{item}}</span><input type="text" class="form-control" ng-model="inputField[$index+1]"/>
     </span>
     <button ng-click="search()">Search</button>
   </div>
