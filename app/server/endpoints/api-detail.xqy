@@ -40,9 +40,9 @@ declare function local:get-json($uri as xs:string, $db as xs:string){
 declare function local:get-details(){
     let $path := xdmp:get-original-url()
     let $tokens := fn:tokenize($path, "/")
-    let $db 	:= $tokens[4]
+    let $db 	:= xdmp:url-decode($tokens[4])
     let $first-part := fn:concat("/api/detail/",$db,"/")
-    let $uri 	:= fn:substring-after($path,$first-part)
+    let $uri 	:= xdmp:url-decode(fn:substring-after($path,$first-part))
     return 
     	if (fn:count($tokens) > 4) then
     		if (ld:database-exists($db)) then
