@@ -15,7 +15,7 @@ import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/ser
 
 declare function local:get-json($uri as xs:string, $db as xs:string){
 	let $doc 		 := ld:get-document($uri,$db)/element()
-    let $docText     := fn:replace(xdmp:quote($doc),'"', '\\"')
+    let $docText     := fn:normalize-space(fn:replace(xdmp:quote($doc),'"', '\\"'))
 	let $doctype 	 := fn:local-name( $doc )
     let $collections := ld:get-collections($uri,$db)
 	let $permissions := ld:get-permissions($uri,$db)
