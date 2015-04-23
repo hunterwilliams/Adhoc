@@ -5,8 +5,10 @@ angular.module('demoApp')
 
     $scope.database = $stateParams.database;
     $scope.uri      = $stateParams.uri;
+    $scope.prettyXML = '';
 
     $scope.details = Detail.get({database:$scope.database,uri:$scope.uri},function(details){
       $scope.doc = details;
+      $scope.prettyXML = vkbeautify.xml($scope.doc.text);
     });
   });
