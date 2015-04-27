@@ -15,7 +15,6 @@ import module namespace ld = "http://marklogic.com/ps/lib/detail"
 import module namespace admin = "http://marklogic.com/xdmp/admin" 
       at "/MarkLogic/admin.xqy";
 
-
 declare namespace db="http://marklogic.com/xdmp/database";
 declare option xdmp:mapping "false";
 
@@ -44,8 +43,8 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
   let $page := if ($page) then xs:int($page) else (1)
 
   let $db := map:get($params, "database")
-  let $doc-type := map:get($params, "docType2")
-  let $query-name := map:get($params, "queryName2")
+  let $doc-type := map:get($params, "docType")
+  let $query-name := map:get($params, "queryName")
   let $view-name := map:get($params, "viewName")
 
   let $final-search := ($searchText, $searchFacet)
@@ -118,27 +117,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
     if ($search-response//search:result) then
       let $results :=
         for $result in $search-response/search:result
-        let $uri := $result/fn:data(@uri)
-        let $doc :=  ld:get-document($uri,$useDB)
-        (: let $log := xdmp:log(fn:string(fn:exists($doc))) :)
-        return
-          <result>
-          {
-            <part><name>uri</name><value><a href='/detail/{$useDB}/{$uri}'>{$uri}</a></value></part>
-            ,
-            for $column in $view/columns/column
-            let $expr := $column/fn:string(@expr)
-            let $name := xs:string($column/@name)
-            let $expr :=
-              if( fn:contains($expr, "$") ) then
-                $expr
-              else
-                fn:concat("$doc", $expr)
-            let $value := xdmp:value(fn:string($expr))
-            return
-              <part><name>{fn:normalize-space($name)}</name><value>{fn:normalize-space($value)}</value></part>
-          }
-          </result>
+          return searchyy:result-to-view($result,$view,$useDB)
       return
         <output>
           <result-count>{searchyy:result-count($search-response)}</result-count>
@@ -151,6 +130,42 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       <output>
         <result-count>0</result-count>
       </output>
+  };
+
+  declare function searchyy:result-to-view($result as element(),$view as element(), $useDB as xs:string){
+    let $uri := $result/fn:data(@uri)
+    let $doc :=  ld:get-document($uri,$useDB)
+
+    let $view-xqy := fn:concat($cfg:namespaces,
+        "
+        declare variable $view external;
+        declare variable $doc external;
+
+        for $column in $view/columns/column
+        let $expr := $column/fn:string(@expr)
+        let $name := xs:string($column/@name)
+        let $expr :=
+          if( fn:contains($expr, '$') ) then
+            $expr
+          else
+            fn:concat('$doc', $expr)
+        let $value := xdmp:value(fn:string($expr))
+        return
+          <part><name>{fn:normalize-space($name)}</name><value>{fn:normalize-space($value)}</value></part>")
+    let $_ := xdmp:log($view-xqy)
+    let $view-parts := xdmp:eval(
+      $view-xqy,
+      ((xs:QName("view"),$view),(xs:QName("doc"),$doc))
+    )
+
+    return
+      <result>
+      {
+        <part><name>uri</name><value><a href='/detail/{$useDB}/{$uri}'>{$uri}</a></value></part>
+        ,
+        $view-parts
+      }
+      </result>
   };
 
   declare function searchyy:make-element($name,$value){

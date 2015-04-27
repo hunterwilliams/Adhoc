@@ -18,9 +18,17 @@ declare variable $cfg:pagesize := 10;
 (: does some debug logging when true :)
 declare variable $D := fn:true();
 
-declare variable $NSBINDINGS :=
-  (
-  )
+declare variable $NS-MAP := 
+  <namespaces>
+    <namespace>
+      <abbrv>sample</abbrv>
+      <uri>http://sample.com</uri>
+    </namespace>
+    <namespace>
+      <abbrv>sample2</abbrv>
+      <uri>http://sample2.org</uri>
+    </namespace>
+  </namespaces>
 ;
 
 declare variable $cfg:getRequestFieldsMap :=
@@ -35,21 +43,29 @@ declare variable $cfg:getRequestFieldsMap :=
   return $map
 ;
 
+declare variable $cfg:namespaces := 
+  let $text :=
+    for $ns in $NS-MAP/namespace
+    return fn:concat('declare namespace ',$ns/abbrv/text(),'="',$ns/uri/text(),'";')
+  return fn:string-join($text)
+;
+
 declare variable $ignoreDbs :=
   ("App-Services", "Documents", "Extensions", "Fab", "Last-Login", "Schemas", "Security");
 
 declare variable $defaultDb := "Documents";
 
-declare variable $PROLOG :=
-'
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
-  at "/server/lib/config.xqy";
-import module namespace search = "http://marklogic.com/appservices/search"
-  at "/MarkLogic/appservices/search/search.xqy";
-
-declare option xdmp:transaction-mode "query";
-declare variable $params as map:map external;
-'
+declare variable $PROLOG := 
+  fn:concat('
+    import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
+      at "/server/lib/config.xqy";
+    import module namespace search = "http://marklogic.com/appservices/search"
+      at "/MarkLogic/appservices/search/search.xqy";',
+      $cfg:namespaces,
+      '
+    declare option xdmp:transaction-mode "query";
+    declare variable $params as map:map external;
+  ')
 ;
 
 (: return HTML option elements based on all DBs on the server that pass some filter conditions :)

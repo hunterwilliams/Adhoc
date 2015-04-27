@@ -97,8 +97,8 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                 </request>,
                 <request uri="^/api/search$" endpoint="{$endpoints:API-SEARCH}">
                     <param name="database"/>
-                    <param name="doctype2"/>
-                    <param name="queryName2"/>
+                    <param name="docType"/>
+                    <param name="queryName"/>
                     <param name="viewName"/>
                     { endpoints:numbered-params("id", (1 to 15)) }
                     <param name="word"/>

@@ -95,8 +95,8 @@ angular.module('demoApp')
       $http.get('/api/search',{
         params:{
           database:$scope.selectedDatabase,
-          doctype2:$scope.selectedDocType,
-          queryName2:$scope.selectedQuery,
+          docType:$scope.selectedDocType,
+          queryName:$scope.selectedQuery,
           viewName:$scope.selectedView,
           id1:$scope.getField(1),
           id2:$scope.getField(2),

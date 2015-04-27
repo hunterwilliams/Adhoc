@@ -1,0 +1,23 @@
+<formQuery>
+  <queryName>Sample Query</queryName>
+  <database>adhoc-content</database>
+  <documentType prefix="sample">sampleDoc</documentType>
+  <formLabel>URI</formLabel>
+  <formLabel>Type</formLabel>
+  <formLabel>Collection</formLabel>
+  <code>let $param2 := map:get($params, "id2") let $param3 := map:get($params, "id3") let $param1 := map:get($params, "id1") let $word := map:get($params, "word")
+return
+ cts:element-query(
+      xs:QName("sample:sampleDoc"), cts:and-query((if ($param2) then cts:element-value-query(xs:QName("sample:type"), $param2)
+            else (),
+if ($param3) then cts:element-value-query(xs:QName("sample:collection"), $param3)
+            else (),
+if ($param1) then cts:element-value-query(xs:QName("sample:uri"), $param1)
+            else (),
+if ($word) then 
+            let $tokens := fn:tokenize($word, " ")
+            for $token in $tokens
+            return cts:word-query($token, "case-insensitive")
+else
+      ())))</code>
+</formQuery>

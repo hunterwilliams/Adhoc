@@ -48,9 +48,9 @@ declare function local:get-code-from-form-query(
 
 declare function local:get-result()
 {
-  let $doc-type := map:get($cfg:getRequestFieldsMap, "doctype2")
+  let $doc-type := map:get($cfg:getRequestFieldsMap, "docType")
   let $database := map:get($cfg:getRequestFieldsMap, "database")
-  let $query-name := map:get($cfg:getRequestFieldsMap, "queryName2")
+  let $query-name := map:get($cfg:getRequestFieldsMap, "queryName")
   let $view-name := map:get($cfg:getRequestFieldsMap, "viewName")
   let $pagination-size := map:get($cfg:getRequestFieldsMap, "pagination-size")
 
@@ -93,8 +93,8 @@ declare function local:get-result()
       map:put($searchParams, "selectedfacet", map:get($cfg:getRequestFieldsMap, "selectedfacet")),
 
       map:put($searchParams, "database", $database),
-      map:put($searchParams, "docType2", $doc-type),
-      map:put($searchParams, "queryName2", $query-name),
+      map:put($searchParams, "docType", $doc-type),
+      map:put($searchParams, "queryName", $query-name),
       map:put($searchParams, "viewName", $view-name)
       (:map:put($searchParams, "facets", local:build-facets($doc-type)):)
     )
