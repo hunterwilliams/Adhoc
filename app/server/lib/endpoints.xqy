@@ -11,8 +11,10 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare option xdmp:mapping "false";
 
 declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
+
 declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
 declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/auth-deauth.xqy";
+
 declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoints/api-users-pass.xqy";
 declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoints/api-detail.xqy";
 declare variable $endpoints:API-GET-XML-DOC     as xs:string := "/server/endpoints/api-get-xml-doc.xqy";
@@ -20,37 +22,6 @@ declare variable $endpoints:API-USERS           as xs:string := "/server/endpoin
 declare variable $endpoints:API-ADHOC-DATABASES as xs:string := "/server/endpoints/adhoc/api-adhoc-databases.xqy";
 declare variable $endpoints:API-ADHOC-SELECTORS as xs:string := "/server/endpoints/adhoc/api-adhoc-selectors.xqy";
 declare variable $endpoints:API-SEARCH          as xs:string := "/server/endpoints/adhoc/api-adhoc-search.xqy";
-
-declare variable $endpoints:CREATE-NEW-QUERY-VIEW  as xs:string := "/server/endpoints/create-new-query-view.xqy";
-declare variable $endpoints:GET-DOCTYPE-OPTIONS as xs:string := "/server/endpoints/get-doctype-options.xqy";
-declare variable $endpoints:GET-DOCTYPES        as xs:string := "/server/endpoints/get-doctypes.xqy";
-declare variable $endpoints:GET-QUERY-NAMES     as xs:string := "/server/endpoints/get-query-names.xqy";
-declare variable $endpoints:GET-FORM-QUERY      as xs:string := "/server/endpoints/get-form-query.xqy";
-declare variable $endpoints:GET-VIEW-NAMES      as xs:string := "/server/endpoints/get-view-names.xqy";
-declare variable $endpoints:GET-EDITQUERY-PARAMS     as xs:string := "/server/endpoints/get-editquery-params.xqy";
-declare variable $endpoints:GET-EDITVIEW-PARAMS     as xs:string := "/server/endpoints/get-editview-params.xqy";
-declare variable $endpoints:DELETE-QUERY        as xs:string := "/server/endpoints/delete-query.xqy";
-declare variable $endpoints:DELETE-VIEW         as xs:string := "/server/endpoints/delete-view.xqy";
-declare variable $endpoints:GET-VIEW            as xs:string := "/server/endpoints/get-view.xqy";
-declare variable $endpoints:SEARCH              as xs:string := "/server/endpoints/search.xqy";
-declare variable $endpoints:OUTPUT              as xs:string := "/server/endpoints/post-download.xqy";
-declare variable $endpoints:ADHOC-UPDATE-DB-QV  as xs:string := "/server/endpoints/adhocupdatequerydb.xqy";
-declare variable $endpoints:COPY-WORKSPACE      as xs:string := "/server/endpoints/copy-workspace-controller.xqy";
-
-declare variable $endpoints:FILE-UPLOAD-FORM    as xs:string := "/server/view/file-upload-form.xqy";
-declare variable $endpoints:LIST-WORKSPACES     as xs:string := "/server/view/list-workspaces.xqy";
-declare variable $endpoints:ADVANCED-SEARCH     as xs:string := "/server/view/new-search.xqy";
-
-declare variable $endpoints:UPLOAD-FILE         as xs:string := "/server/model/upload-file.xqy";
-declare variable $endpoints:METRICS-CONFIG      as xs:string := "/server/model/metrics-config.xqy";
-declare variable $endpoints:DOWNLOAD-METRICS    as xs:string := "/server/model/download-metrics-file.xqy";
-declare variable $endpoints:UPLOAD-METRICS      as xs:string := "/server/model/upload-metrics-file.xqy";
-declare variable $endpoints:ADHOC-QUERY         as xs:string := "/server/model/adhoc-query.xqy";
-declare variable $endpoints:ADHOC-EDIT-QUERY    as xs:string := "/server/model/adhoc-edit-query.xqy";
-declare variable $endpoints:ADHOC-EDIT-VIEW     as xs:string := "/server/model/adhoc-edit-view.xqy";
-declare variable $endpoints:ADHOC-QUERY-WIZARD  as xs:string := "/server/model/adhoc-query-wizard.xqy";
-declare variable $endpoints:ADHOC-NEW-QUERY     as xs:string := "/server/model/adhoc-new-query.xqy";
-declare variable $endpoints:ADHOC_UPDATE_QUERY_DB  as xs:string := "/server/model/adhoc-update-query-db.xqy";
 
 (: README https://github.com/marklogic/ml-rest-lib :)
 
@@ -110,183 +81,11 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <param name="pagination-size"/>
                     <http method="POST"/>
                     <http method="GET"/>
-                </request>,
-                <request uri="^/get-doctype-options$" endpoint="{$endpoints:GET-DOCTYPE-OPTIONS}">
-                    <param name="db"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/get-form-query$" endpoint="{$endpoints:GET-FORM-QUERY}">
-                    <param name="db"/>
-                    <param name="docType"/>
-                    <param name="queryName"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/get-editquery-params$" endpoint="{$endpoints:GET-EDITQUERY-PARAMS}">
-                    <param name="queryType"/>
-                    <param name="documentType"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/get-editview-params$" endpoint="{$endpoints:GET-EDITVIEW-PARAMS}">
-                    <param name="viewType"/>
-                    <param name="documentType"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/delete-query$" endpoint="{$endpoints:DELETE-QUERY}">
-                    <param name="queryType"/>
-                    <param name="documentType"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/delete-view$" endpoint="{$endpoints:DELETE-VIEW}">
-                    <param name="viewType"/>
-                    <param name="documentType"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,                
-                <request uri="^/get-view$" endpoint="{$endpoints:GET-VIEW}">
-                    <param name="db"/>
-                    <param name="docType"/>
-                    <param name="viewName"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhoc_update_query_db$" endpoint="{$endpoints:ADHOC_UPDATE_QUERY_DB}">
-                    <param name="updateType"/>
-                    <param name="docType"/>
-                    <param name="query"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhocupdatequerydb$" endpoint="{$endpoints:ADHOC-UPDATE-DB-QV}">
-                    <param name="updateType"/>
-                    <param name="docType"/>
-                    <param name="query"/>
-                    <param name="db-list"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/search$" endpoint="{$endpoints:SEARCH}">
-                    <param name="params"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                
-                <request uri="^/advanced-search$" endpoint="{$endpoints:ADVANCED-SEARCH}">
-                    <param name="search-text"/>
-                    <param name="search-options"/>
-                    <param name="search-start"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-             <request uri="^/outputs$" endpoint="{$endpoints:OUTPUT}">
-                    <param name="params"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                    <param name="data"/>
                 </request>
               )
             else
               ()
         }
-        (:{
-            if (cu:is-logged-in() and cu:is-admin()) then
-              (
-                <request uri="^/adhoceditquery$" endpoint="{$endpoints:ADHOC-EDIT-QUERY}">
-                    <param name="prefix"/>
-                    <param name="rootElement"/>
-                    <param name="queryName"/>
-                    <param name="queryText"/>
-                    <param name="submit"/>
-                    {
-                      endpoints:numbered-params("formLabel", (1 to 15))
-                    }
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhoceditview$" endpoint="{$endpoints:ADHOC-EDIT-VIEW}">
-                    <param name="prefix"/>
-                    <param name="rootElement"/>
-                    <param name="viewName"/>
-                    <param name="submit"/>
-                    {
-                      endpoints:numbered-params("columnName", (1 to 15)),
-                      endpoints:numbered-params("columnExpr", (1 to 15))
-                    }
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhocquerywizard$" endpoint="{$endpoints:ADHOC-QUERY-WIZARD}">
-                    <param name="uploadedDoc"/>
-                    <param name="type"/>                  
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhocnewquery$" endpoint="{$endpoints:ADHOC-NEW-QUERY}">
-                    <param name="type"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,
-                <request uri="^/adhocnewview$" endpoint="{$endpoints:ADHOC-NEW-QUERY}">
-                    <param name="type"/>
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>,                
-                <request uri="^/createnewqueryview$" endpoint="{$endpoints:CREATE-NEW-QUERY-VIEW}">
-                    <param name="prefix"/>
-                    <param name="rootElement"/>
-                    <param name="queryName"/>
-                    <param name="viewName"/>
-                    <param name="queryText"/>
-                    <param name="database"/>   
-                    <param name="submit"/>
-                    {endpoints:numbered-params("formLabel", (1 to 250))}
-                    {endpoints:numbered-params("formLabelHidden", (1 to 250))}
-                    {endpoints:numbered-params("columnName", (1 to 250))}
-                    {endpoints:numbered-params("columnExpr", (1 to 250))}                    
-                    <http method="POST"/>
-                    <http method="GET"/>
-                </request>
-          
-              )
-            else
-              ()
-        }:)
-
-        (:{
-            if (cu:is-logged-in() and fn:not(cu:is-tester())) then
-            (
-                <request uri="^/file-upload-form$" endpoint="{$endpoints:FILE-UPLOAD-FORM}">
-                    <http method="GET"/>
-                </request>
-                ,
-                <request uri="^/upload-file$" endpoint="{$endpoints:UPLOAD-FILE}">
-                    <param name="filename"/>
-                    <param name="uri"/>
-                    <param name="database"/>
-                    <http method="POST"/>
-                </request>
-                ,
-                <request uri="^/list-workspaces$" endpoint="{$endpoints:LIST-WORKSPACES}">
-                    <http method="GET" />
-                </request>
-                ,
-                <request uri="^/copy-workspace$" endpoint="{$endpoints:COPY-WORKSPACE}">
-                    <param name="workspace"/>
-                    <http method="POST"/>
-                </request>
-                ,
-                <request uri="^/report" endpoint="/controller/report.xqy">
-                    <http method="GET"/>
-                    <param name="database" required="false"/>
-                </request>
-            )
-            else
-              ()
-        }:)
         {
           if (cu:is-logged-in()) then
             ()
