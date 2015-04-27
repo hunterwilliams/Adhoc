@@ -1,36 +1,45 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <select ng-model="selectedDatabase" ng-options="item as item for item in databases">
-  	<option value="">--Choose Database</option>
-  </select>
-  <select ng-model="selectedDocType" ng-options="item as item for item in doctypes">
-  	<option value="">--Choose DocType</option>
-  </select>
-  <select ng-model="selectedQuery" ng-options="item.query as item.query for item in queries">
-  	<option value="">--Choose Query</option>
-  </select>
-  <select ng-model="selectedView" ng-options="item as item for item in views">
-  	<option value="">--Choose View</option>
-  </select>
-  <div ng-show="textFields.length">
-    <span ng-repeat="item in textFields">
-      <span>{{item}}</span><input type="text" class="form-control" ng-model="inputField[$index+1]"/>
-    </span>
-    <button ng-click="search()">Search</button>
-  </div>
-  <div ng-show="message != ''">{{message}}</div>
-  <div ng-show="results['result-count']">
-    <span> Total Results: {{results['result-count']}}</span>
-    <span ng-show="results['current-page']"> Page: {{results['current-page']}} of {{results['page-count']}} </span>
-    <table class="table table-bordered">
-      <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
-      <tr ng-repeat="result in results['results']">
-        <td ng-repeat="(key,value) in result">
-          <span ng-show="key == 'uri'" ng-bind-html="to_trusted(value)"></span>
-          <span ng-hide="key == 'uri'">{{value}}</span>
-        </td>
-      </tr>
-    </table>
+  <div class="row">
+    <div class="col-md-3">
+      <form>
+        <select ng-model="selectedDatabase" ng-options="item as item for item in databases" class="form-control">
+        	<option value="">--Choose Database</option>
+        </select>
+        <select ng-model="selectedDocType" ng-options="item as item for item in doctypes" class="form-control">
+        	<option value="">--Choose DocType</option>
+        </select>
+        <select ng-model="selectedQuery" ng-options="item.query as item.query for item in queries" class="form-control">
+        	<option value="">--Choose Query</option>
+        </select>
+        <select ng-model="selectedView" ng-options="item as item for item in views" class="form-control">
+        	<option value="">--Choose View</option>
+        </select>
+        <div ng-show="textFields.length">
+          <div ng-repeat="item in textFields" class="form-group">
+            <label for="input{{index+1}}">{{item}}</label>
+            <input type="text" class="form-control" ng-model="inputField[$index+1]" id="input{{index+1}}" placeholder="{{item}}"/>
+          </div>
+          <button type="submit" ng-click="search()" class="btn btn-default">Search</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-9">
+      <div ng-show="message != ''">{{message}}</div>
+      <div ng-show="results['result-count']">
+        <span> Total Results: {{results['result-count']}}</span>
+        <span ng-show="results['current-page']"> Page: {{results['current-page']}} of {{results['page-count']}} </span>
+        <table class="table table-bordered">
+          <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
+          <tr ng-repeat="result in results['results']">
+            <td ng-repeat="(key,value) in result">
+              <span ng-show="key == 'uri'" ng-bind-html="to_trusted(value)"></span>
+              <span ng-hide="key == 'uri'">{{value}}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
