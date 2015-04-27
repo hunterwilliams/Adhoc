@@ -12,8 +12,8 @@ declare option xdmp:mapping "false";
 
 declare variable $endpoints:DEFAULT             as xs:string := "/client/index.html";
 
-declare variable $endpoints:AUTH                as xs:string := "/server/endpoints/auth.xqy";
-declare variable $endpoints:DEAUTH              as xs:string := "/server/endpoints/auth-deauth.xqy";
+declare variable $endpoints:API-AUTH                as xs:string := "/server/endpoints/api-auth.xqy";
+declare variable $endpoints:API-DEAUTH              as xs:string := "/server/endpoints/api-auth-deauth.xqy";
 
 declare variable $endpoints:API-USERS-PASS      as xs:string := "/server/endpoints/api-users-pass.xqy";
 declare variable $endpoints:API-DETAIL          as xs:string := "/server/endpoints/api-detail.xqy";
@@ -31,12 +31,12 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
         <request uri="^/$" endpoint="{$endpoints:DEFAULT}"/>
         <request uri="^/index\.htm" endpoint="{$endpoints:DEFAULT}"/>
 
-        <request uri="^/auth$" endpoint="{$endpoints:AUTH}">
+        <request uri="^/auth$" endpoint="{$endpoints:API-AUTH}">
             <param name="userid"/>
             <param name="password"/>
             <http method="POST"/>
         </request>
-        <request uri="^/deauth$" endpoint="{$endpoints:DEAUTH}">
+        <request uri="^/deauth$" endpoint="{$endpoints:API-DEAUTH}">
             <http method="POST"/>
         </request>
 
