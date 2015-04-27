@@ -68,21 +68,6 @@ declare variable $PROLOG :=
   ')
 ;
 
-(: return HTML option elements based on all DBs on the server that pass some filter conditions :)
-declare function cfg:get-databases()
-{
-  let $dbName := (map:get($cfg:getRequestFieldsMap, "database"), $defaultDb)[1]
-  for $db in xdmp:database-name(xdmp:databases())
-  where fn:not(fn:contains(fn:lower-case($db),fn:lower-case($ignoreDbs)))
-  order by $db ascending
-  return
-    if ($db = $dbName) then
-      <option selected="selected">{$db}</option>
-    else
-      <option>{$db}</option>
-};
-
-
 (: returns all of the localnames of the document types that have form-query objects :)
 declare function cfg:get-document-types($db as xs:string) as xs:string*
 {
