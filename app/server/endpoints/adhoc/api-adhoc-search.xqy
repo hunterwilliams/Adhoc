@@ -80,6 +80,7 @@ declare function local:get-result()
 
   let $log := if ($cfg:D) then xdmp:log(text{ "local:get-result, $user-q = ", $user-q }) else ()
 
+  let $additional-query := cts:and-query(($user-q))(:should add deleted versions and excluded verisons - removed for now :)
 
   let $searchParams := map:map()
 
@@ -91,6 +92,7 @@ declare function local:get-result()
       map:put($searchParams, "facet", ()),
       map:put($searchParams, "pagenumber", map:get($cfg:getRequestFieldsMap, "pagenumber")),
       map:put($searchParams, "selectedfacet", map:get($cfg:getRequestFieldsMap, "selectedfacet")),
+      map:put($searchParams, "additionalquery", $additional-query),
 
       map:put($searchParams, "database", $database),
       map:put($searchParams, "docType", $doc-type),
@@ -136,7 +138,7 @@ declare function local:get-json(){
 
   return 
     if ($result/result-count = 0) then
-      "{result-count:0}"
+      '{"result-count":"0"}'
     else
       let $results-json :=
         for $r in $result/results/result

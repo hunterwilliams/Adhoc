@@ -22,7 +22,7 @@
   <div ng-show="message != ''">{{message}}</div>
   <div ng-show="results['result-count']">
     <span> Total Results: {{results['result-count']}}</span>
-    <span> Page: {{results['current-page']}} of {{results['page-count']}} </span>
+    <span ng-show="results['current-page']"> Page: {{results['current-page']}} of {{results['page-count']}} </span>
     <table class="table table-bordered">
       <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
       <tr ng-repeat="result in results['results']">

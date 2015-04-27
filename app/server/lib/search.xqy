@@ -152,7 +152,6 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
         let $value := xdmp:value(fn:string($expr))
         return
           <part><name>{fn:normalize-space($name)}</name><value>{fn:normalize-space($value)}</value></part>")
-    let $_ := xdmp:log($view-xqy)
     let $view-parts := xdmp:eval(
       $view-xqy,
       ((xs:QName("view"),$view),(xs:QName("doc"),$doc))
