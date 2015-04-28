@@ -13,6 +13,7 @@ angular.module('demoApp')
     $scope.results = {};
     $scope.inputField = {};
     $scope.message = '';
+    $scope.currentPage = 1;
 
     $scope.to_trusted = function(html_code) {
         return $sce.trustAsHtml(html_code);
@@ -89,6 +90,11 @@ angular.module('demoApp')
       }
     };
 
+    $scope.clickSearch = function(){
+      $scope.currentPage = 1;
+      $scope.search();
+    };
+
     $scope.search = function(){
       $scope.message = 'Searching....';
       $scope.results = {};
@@ -116,11 +122,12 @@ angular.module('demoApp')
           excludeversions:1,
           excludedeleted:1,
           go:1,
-          pagenumber:1
+          pagenumber:$scope.currentPage
         }
       }).success(function(data, status, headers, config) {
         $scope.message = '';
         $scope.results = data;
+        $scope.currentPage = $scope.results['current-page'];
       }).error(function(data, status){
         if (status == 500){
           $scope.message = "Server Error";

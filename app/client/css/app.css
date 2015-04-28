@@ -4,3 +4,13 @@
   margin-top: 70px;
   border-top: 1px solid #E5E5E5;
 }
+
+.search-results-stats{
+	float:right;
+	text-align:right;
+}
+
+.search-results-stats td:first-of-type + td{
+	/* this selects the second column*/
+	padding-left:5px;
+}
