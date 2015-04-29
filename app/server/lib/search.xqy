@@ -36,7 +36,7 @@ declare function searchyy:index-exists($index as xs:string,$namespace as xs:stri
 };
 
 declare function searchyy:search($params as map:map, $useDB as xs:string){
-  let $searchText := ""
+  let $searchText := fn:concat("",map:get($params, "searchText"))
   let $searchFacet :=  map:get($params, "selectedfacet")
   let $additional-query := map:get($params, "additionalquery")
   let $page := xs:int(map:get($params, "pagenumber"))

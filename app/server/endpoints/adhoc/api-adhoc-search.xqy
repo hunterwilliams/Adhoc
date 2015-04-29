@@ -87,7 +87,7 @@ declare function local:get-result()
   let $_ :=
     (
       map:put($searchParams, "id", map:get($cfg:getRequestFieldsMap, "id")),
-      map:put($searchParams, "searchText", ""),
+      map:put($searchParams, "searchText", map:get($cfg:getRequestFieldsMap,"searchText")),
       map:put($searchParams, "page", "1"),
       map:put($searchParams, "facet", ()),
       map:put($searchParams, "pagenumber", map:get($cfg:getRequestFieldsMap, "pagenumber")),

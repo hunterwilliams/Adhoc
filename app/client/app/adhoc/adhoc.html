@@ -38,10 +38,16 @@
       </form>
     </div>
     <div class="col-md-9">
+      <div class="input-group search-box">
+        <input type="text" class="form-control" ng-model="searchText" placeholder="Search text.." aria-label="...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="clickSearch()">Search!</button>
+        </span>
+      </div>
       <div ng-show="message != '' || results['result-count']" class="panel panel-default">
         <div class="panel-body">
           <div ng-show="message != ''">{{message}}</div>
-          <div ng-show="results['result-count']">
+          <div ng-show="results['result-count'] > 0">
             <table class="search-results-stats">
               <tr><td><strong>Total Results:</strong></td><td>{{results['result-count']}}</td></tr>
               <tr><td><strong>Page:</strong></td><td>{{results['current-page']}} of {{results['page-count']}}</td></tr>
@@ -56,6 +62,9 @@
                 </td>
               </tr>
             </table>
+          </div>
+          <div ng-show="results['result-count'] == 0">
+            <div class="alert alert-info" role="alert"><strong>Warning!</strong> No data found for given search...</div>
           </div>
         </div>
       </div>

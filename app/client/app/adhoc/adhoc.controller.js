@@ -13,6 +13,7 @@ angular.module('demoApp')
     $scope.results = {};
     $scope.inputField = {};
     $scope.message = '';
+    $scope.searchText = '';
     $scope.currentPage = 1;
 
     $scope.to_trusted = function(html_code) {
@@ -101,6 +102,7 @@ angular.module('demoApp')
       $http.get('/api/search',{
         params:{
           database:$scope.selectedDatabase,
+          searchText:$scope.searchText,
           docType:$scope.selectedDocType,
           queryName:$scope.selectedQuery,
           viewName:$scope.selectedView,
