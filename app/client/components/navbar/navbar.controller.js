@@ -6,7 +6,8 @@ angular.module('demoApp')
       'title': 'Home',
       'link': '/'
     }]
-    $scope.adminMenu =[{
+    $scope.dataExplorerMenu =[
+    {
       'title': 'Adhoc',
       'link': '/adhoc'
     }];
@@ -14,6 +15,7 @@ angular.module('demoApp')
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
+    $scope.isDataExplorer = Auth.isDataExplorer;
     $scope.getCurrentUser = Auth.getCurrentUser;
 
     $scope.logout = function() {

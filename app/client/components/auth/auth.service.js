@@ -161,6 +161,10 @@ angular.module('demoApp')
         return currentUser.hasOwnProperty('user') && currentUser.user.role === 'admin';
       },
 
+      isDataExplorer: function() {
+        return currentUser.hasOwnProperty('user') && currentUser.user.role === 'data-explorer';
+      },
+
       /**
        * Get auth token
        */

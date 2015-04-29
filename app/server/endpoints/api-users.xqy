@@ -18,7 +18,7 @@ declare function local:get-user(){
                 if (cu:is-admin()) then
                     "admin"
                 else if (cu:is-tester()) then
-                    "tester"
+                    "data-explorer"
                 else
                     "guest"       
             return 
