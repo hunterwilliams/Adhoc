@@ -160,51 +160,49 @@ xdmp:log("START DEPLOY SECURITY"),
 (: //////////////// SET UP /////////////// :)
  
     local:eval('1','Install Basic Roles',$secUtils,'
-        let $CREATE_USER := local:create-role("mlum-default-user","Role for Data Explorer App",
+        let $CREATE_USER := local:create-role("data-explorer-default-user","Role for Data Explorer App",
                                     ("rest-reader","app-user"),(),())
-        let $CREATE_ROLE := local:create-role("mlum-install","Install role for Data Explorer App",
+        let $CREATE_ROLE := local:create-role("data-explorer-install","Install role for Data Explorer App",
                             ("admin"),(),())
     '),
     
-    (: The following role is dependent on the readonly roles and above mlum-default-user:)
+    (: The following role is dependent on the readonly roles and above data-explorer-default-user:)
     local:eval('2','Install User Assign Roles',$secUtils,'
         let $CREATE_USER := local:create-role("data-explorer-user","Role for Data Explorer",
-                                    ("mlum-default-user"),(),())
+                                    ("data-explorer-default-user"),(),())
     '),
     
     local:eval('4','Set default role permissions',$secUtils,'
 
-        let $SET_PERM := local:role-set-default-permissions("mlum-install",
-            (xdmp:permission("mlum-default-user","read"),
-             xdmp:permission("mlum-default-user","execute")))
+        let $SET_PERM := local:role-set-default-permissions("data-explorer-install",
+            (xdmp:permission("data-explorer-default-user","read"),
+             xdmp:permission("data-explorer-default-user","execute")))
     '),
     
     local:eval('5a','Create special exec priv',$secUtils,' 
-        let $ADD_PRIV := local:create-exec-privilege("ml-user-mng","http://marklogic.com/ps/ml-user-mng",())
+        let $ADD_PRIV := local:create-exec-privilege("ml-data-explore","http://marklogic.com/ps/ml-data-explore",())
     '),
     
     local:eval('5b','Assign exec priv to role',$secUtils,' 
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-invoke")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-invoke-in")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-value")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/admin-module-read")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/get-user-names")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/user-set-password")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-invoke")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-invoke-in")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-value")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/admin-module-read")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/get-user-names")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/user-set-password")
         
         
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/ps/ml-user-mng")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/create-user")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/grant-all-roles")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-eval")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-eval-in")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/any-uri")
-        let $ADD_PRIV := local:add-exec-priv-to-role("mlum-default-user","http://marklogic.com/xdmp/privileges/xdmp-add-response-header")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/ps/ml-data-explore")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-eval")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-eval-in")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/any-uri")
+        let $ADD_PRIV := local:add-exec-priv-to-role("data-explorer-default-user","http://marklogic.com/xdmp/privileges/xdmp-add-response-header")
         
     '),
     
     local:eval('6','create users',$secUtils,'
-        let $CREATE_USER := local:create-user("mlum-default-user","MarkLogic User Management",fn:string(xdmp:random()),("mlum-default-user"),(),())
-        let $CREATE_USER := local:create-user("mlum-install","MarkLogic User Management Install User", "mlum-install",("mlum-install"),(),())
+        let $CREATE_USER := local:create-user("data-explorer-default-user","Data Explorer Default User",fn:string(xdmp:random()),("data-explorer-default-user"),(),())
+        let $CREATE_USER := local:create-user("data-explorer-install","Data Explorer Install User", "data-explorer-install",("data-explorer-install"),(),())
     '),
 
 

@@ -9,3 +9,7 @@
 *** Deploy of adhoc with maven:
 1. Simply call run "ant" and it'll deploy to 8006!
 $ ant
+
+
+*** Usage:
+Give the data-explorer role to anyone who is not an admin that requires access to the app.

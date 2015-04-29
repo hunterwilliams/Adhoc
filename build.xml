@@ -41,32 +41,8 @@
         </fileset>
       </ml:docset>
     </ml:load>
-  	
-  	<echo>Removing install user</echo>
-	<ml:query xccurl="${ml.xcc.security-install}" failonerror="true">
-		<fileset dir="installationScripts" id="queries">
-		    <include name="installCleanup.xqy"/>
-		</fileset>
-	</ml:query>
+    <echo>Build complete!</echo>
  </target>
-	
-	<target name="clean" unless="no.deploy.xqy">
-	    <echo>**** Full TearDown of environment </echo>
-
-	    <echo>Delete Servers, Databases, Forests</echo>
-		<ml:query xccurl="${ml.xcc.security-install}" failonerror="true">
-			<fileset dir="installationScripts" id="queries">
-			    <include name="teardown.xqy"/>
-			</fileset>
-		</ml:query>
-
-	    <echo>Delete Users, Roles, Privs</echo>
-		<ml:query xccurl="${ml.xcc.security-install}" failonerror="true">
-			<fileset dir="installationScripts" id="queries">
-			    <include name="teardownSecurity.xqy"/>
-			</fileset>
-		</ml:query>
-	 </target>
 
 	 <macrodef name="runXquery">
 	 	<attribute name="xccurl"/>

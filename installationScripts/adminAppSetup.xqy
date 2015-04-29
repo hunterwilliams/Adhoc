@@ -136,7 +136,7 @@
             let $log := xdmp:log("4. Configure App HTTP Server")
             let $config := admin:get-configuration()
             let $http-id := admin:appserver-get-id($config, admin:group-get-id($config, "Default"), $app-http-server-name)    
-            let $user-uid := xdmp:user("mlum-default-user")
+            let $user-uid := xdmp:user("data-explorer-default-user")
             let $config := admin:appserver-set-error-handler($config, $http-id, "/server/error.xqy")
             let $config := admin:appserver-set-url-rewriter($config, $http-id, "/server/rewrite.xqy")
             let $config := admin:appserver-set-authentication($config, $http-id, "application-level")
@@ -145,7 +145,7 @@
             let $exec-priv :=  xdmp:eval('
                     xquery version "1.0-ml";
                     import module "http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy"; 
-                    sec:get-privilege("http://marklogic.com/ps/ml-user-mng", "execute")/sec:privilege-id
+                    sec:get-privilege("http://marklogic.com/ps/ml-data-explore", "execute")/sec:privilege-id
                 ', (),  $sec_eval_option)
             
             let $config := admin:appserver-set-privilege( $config, $http-id, $exec-priv ) 
@@ -189,13 +189,6 @@
                     $sec_eval_option)
                 let $_ := l:create-amp(
                     "find-related-items-by-document",
-                    $namespace-detail,
-                    $lib-detail-uri,
-                    "admin",
-                    $modules-dbid,
-                    $sec_eval_option)
-                let $_ := l:create-amp(
-                    "find-related-audits-by-uri",
                     $namespace-detail,
                     $lib-detail-uri,
                     "admin",
