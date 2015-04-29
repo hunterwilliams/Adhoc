@@ -2,13 +2,11 @@ xquery version "1.0-ml";
 
 module namespace cfg = "http://www.marklogic.com/ps/lib/config";
 
-(: these properties mostly set inside the filter.propreties file :)
-
-declare variable $cfg:app-title := "${app-title}";
-declare variable $cfg:app-role := "${app-role}";
-declare variable $cfg:management-role := "${management-role}";
-declare variable $cfg:admin := "${admin-name}";
-declare variable $cfg:modules-db := "${module-db}";
+(: START OF PROPERTIES YOU CAN MODIFY :)
+declare variable $cfg:app-title := "Data-Explorer";
+declare variable $cfg:app-role := "data-explorer-user";
+declare variable $cfg:admin := "admin";
+declare variable $cfg:modules-db := "MLUM-Modules";
 
 declare variable $cfg:create-user := fn:false();
 
@@ -30,6 +28,8 @@ declare variable $NS-MAP :=
     </namespace>
   </namespaces>
 ;
+
+(: END OF PROPERTIES YOU CAN MODIFY :)
 
 declare variable $cfg:getRequestFieldsMap :=
   let $map := map:map()

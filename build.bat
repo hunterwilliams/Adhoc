@@ -1,1 +1,0 @@
-mvn -s C:\Users\hunter.williams\Dev\settings\settings.xml install

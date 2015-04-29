@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Marklogic Build Tasks" basedir="." default="deploy"
-    xmlns:ml="http://www.marklogic.com/ant"
-    xmlns:dav="antlib:org.apache.webdav.ant">
-	<path id="project.classpath">
-		<pathelement path="${compile_classpath}"/>
+    xmlns:ml="http://www.marklogic.com/ant">
+    <property file="install.properties" />
+	<path id="mlant-classpath">
+        <fileset dir="${lib-dir}">
+              <include name="xcc.jar" />
+              <include name="mlant.jar" />
+              <include name="corb.jar"/>
+              <include name="saxon9he.jar"/>
+              <include name="xqdoc-ml.jar"/>
+              <include name="antlr-2.7.5.jar"/>
+        </fileset>
     </path>
+
+    <typedef 
+	       uri="http://www.marklogic.com/ant" 
+	       resource="com/marklogic/ant/antlib.xml"
+	       classpathref="mlant-classpath"
+	    />
          
 	<!-- TODO use settings.xml value for xcc.url, perhaps send in from Maven somehow -->
-	<property file="install.properties" />
 	<property name="ml.xcc.security-install" value="xcc://${security-user}:${security-password}@${hostname}:${port}/Documents"/>
 	<property name="ml.xcc.modules-deploy" value="xcc://${modules-user}:${modules-password}@${hostname}:${port}/${module-db}"/>
-  	<typedef uri="http://www.marklogic.com/ant" resource="com/marklogic/ant/antlib.xml" classpathref="project.classpath"/>
 
 	<target name="setup">
 		<echo>Installing security objects (Roles, Users, Amps, etc...)</echo>
-		<ml:query xccurl="${ml.xcc.security-install}" failonerror="true">
-			<fileset dir="installationScripts" id="queries">
-			    <include name="security.xqy"/>
-			</fileset>
-		</ml:query>
+		<runXquery xccurl="${ml.xcc.security-install}" xqy="installationScripts/security.xqy" />
 		<echo>Installing database objects (Forests, Databases, AppServers, etc...)</echo>
-		<ml:query xccurl="${ml.xcc.security-install}" failonerror="true">
-			<fileset dir="installationScripts" id="queries">
-			    <include name="adminAppSetup.xqy"/>
-			</fileset>
-		</ml:query>
-
+		<runXquery xccurl="${ml.xcc.security-install}" xqy="installationScripts/adminAppSetup.xqy" />
 	</target>
 	
 	<!-- depends="setup" -->
@@ -33,8 +35,9 @@
     <echo>Loading Modules to database: ${module-db} </echo>
     <ml:load xccurl="${ml.xcc.modules-deploy}">
       <ml:docset destdir="/">
-        <fileset dir="target/outputXQuery">
-          <include name="**/*.*"/>
+        <fileset dir="app">
+          <include name="server/**"/>
+          <include name="client/**"/>
         </fileset>
       </ml:docset>
     </ml:load>
@@ -64,5 +67,26 @@
 			</fileset>
 		</ml:query>
 	 </target>
+
+	 <macrodef name="runXquery">
+	 	<attribute name="xccurl"/>
+	 	<attribute name="xqy"/>
+	 	<sequential>
+	 		<echo>Running xqy on @{xccurl} script @{xqy}</echo>
+		 	<java jar="lib/runXquery.jar"
+	           fork="true"
+	           failonerror="true"
+	           maxmemory="128m"
+	           >
+	         <arg value="@{xccurl}"/>
+	         <arg value="@{xqy}"/>
+	         <classpath>
+	           <pathelement location="lib/runXquery.jar"/>
+	           <pathelement path="${java.class.path}"/>
+	         </classpath>
+	       </java>
+	    </sequential>
+    </macrodef>
+
 
 </project>

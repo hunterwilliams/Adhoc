@@ -160,17 +160,17 @@ xdmp:log("START DEPLOY SECURITY"),
 (: //////////////// SET UP /////////////// :)
  
     local:eval('1','Install Basic Roles',$secUtils,'
-        let $CREATE_USER := local:create-role("mlum-default-user","Role for Adhoc App",
+        let $CREATE_USER := local:create-role("mlum-default-user","Role for Data Explorer App",
                                     ("rest-reader","app-user"),(),())
-        let $CREATE_ROLE := local:create-role("mlum-install","Install role for Adhoc App",
+        let $CREATE_ROLE := local:create-role("mlum-install","Install role for Data Explorer App",
                             ("admin"),(),())
     '),
     
     (: The following role is dependent on the readonly roles and above mlum-default-user:)
-    (:local:eval('2','Install User Assign Roles',$secUtils,'
-        let $CREATE_USER := local:create-role("gen-tester","Role for ML User Tester",
+    local:eval('2','Install User Assign Roles',$secUtils,'
+        let $CREATE_USER := local:create-role("data-explorer-user","Role for Data Explorer",
                                     ("mlum-default-user"),(),())
-    '),:)
+    '),
     
     local:eval('4','Set default role permissions',$secUtils,'
 

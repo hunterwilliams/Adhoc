@@ -2,10 +2,10 @@
 0. Have ant & maven installed. JAVA_HOME should be set in shell that maven will run from.
 1. Edit install.properties in marklogic-db-setup/trunk/ml-user-management
 2. Change 'hostname' to deploy target instance IP or hostname.
-3. Change 'autouser' and 'autopassword' to your credentials on that ML instance
-4. Change 'port' to appropriate port, like 8004 or 8006
+3. Change 'securityuser' and 'securitypassword' to your credentials on that ML instance
+4. Change 'port' to an xdbc server you can deploy to
 
 
 *** Deploy of adhoc with maven:
-$ cd ....../marklogic-db-setup/trunk/ml-user-management
-$ mvn -s /cygwin64/home/user/svn/maven/settings.xml install
+1. Simply call run "ant" and it'll deploy to 8006!
+$ ant
