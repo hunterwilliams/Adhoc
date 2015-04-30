@@ -2,83 +2,84 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
-      <form>
-        <div class="form-group">
-          <label>Database</label>
-          <select ng-model="selectedDatabase" ng-options="item as item for item in databases" class="form-control">
-          	<option value="">--Choose Database</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>DocType</label>
-          <select ng-model="selectedDocType" ng-options="item as item for item in doctypes" class="form-control">
-          	<option value="">--Choose DocType</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Query</label>
-          <select ng-model="selectedQuery" ng-options="item.query as item.query for item in queries" class="form-control">
-          	<option value="">--Choose Query</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>View</label>
-          <select ng-model="selectedView" ng-options="item as item for item in views" class="form-control">
-          	<option value="">--Choose View</option>
-          </select>
-        </div>
-        <div ng-show="textFields.length">
-          <div ng-repeat="item in textFields" class="form-group">
-            <label for="input{{index+1}}">{{item}}</label>
-            <input type="text" class="form-control" ng-model="inputField[$index+1]" id="input{{index+1}}" placeholder="{{item}}"/>
+    <form name="form">
+      <div class="col-md-3">
+          <div class="form-group">
+            <label>Database</label>
+            <select ng-model="selectedDatabase" ng-options="item as item for item in databases" class="form-control" required>
+            	<option value="">--Choose Database</option>
+            </select>
           </div>
-          <button type="submit" ng-click="clickSearch()" class="btn btn-default">Search</button>
-        </div>
-      </form>
-    </div>
-    <div class="col-md-9">
-      <div class="input-group search-box">
-        <input type="text" class="form-control" ng-model="searchText" placeholder="Search text.." aria-label="...">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ng-click="clickSearch()">Search!</button>
-        </span>
-      </div>
-      <div ng-show="message != '' || results['result-count']" class="panel panel-default">
-        <div class="panel-body">
-          <div ng-show="message != ''">{{message}}</div>
-          <div ng-show="results['result-count'] > 0">
-            <table class="search-results-stats">
-              <tr><td><strong>Total Results:</strong></td><td>{{results['result-count']}}</td></tr>
-              <tr><td><strong>Page:</strong></td><td>{{results['current-page']}} of {{results['page-count']}}</td></tr>
-            </table>
-            <pagination total-items="results['result-count']" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" ng-click="search()"></pagination>
-            <table class="table table-bordered">
-              <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
-              <tr ng-repeat="result in results['results']">
-                <td ng-repeat="(key,value) in result">
-                  <span ng-show="key == 'uri'" ng-bind-html="to_trusted(value)"></span>
-                  <span ng-hide="key == 'uri'">{{value}}</span>
-                </td>
-              </tr>
-            </table>
+          <div class="form-group">
+            <label>DocType</label>
+            <select ng-model="selectedDocType" ng-options="item as item for item in doctypes" class="form-control" required>
+            	<option value="">--Choose DocType</option>
+            </select>
           </div>
-          <div ng-show="results['result-count'] == 0">
-            <div class="alert alert-info" role="alert"><strong>Warning!</strong> No data found for given search...</div>
+          <div class="form-group">
+            <label>Query</label>
+            <select ng-model="selectedQuery" ng-options="item.query as item.query for item in queries" class="form-control" required>
+            	<option value="">--Choose Query</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>View</label>
+            <select ng-model="selectedView" ng-options="item as item for item in views" class="form-control" required>
+            	<option value="">--Choose View</option>
+            </select>
+          </div>
+          <div ng-show="textFields.length">
+            <div ng-repeat="item in textFields" class="form-group">
+              <label for="input{{index+1}}">{{item}}</label>
+              <input type="text" class="form-control" ng-model="inputField[$index+1]" id="input{{index+1}}" placeholder="{{item}}"/>
+            </div>
+            <button type="submit" ng-click="clickSearch(form)" class="btn btn-default">Search</button>
+          </div>
+        
+      </div>
+      <div class="col-md-9">
+        <div class="input-group search-box">
+          <input type="text" class="form-control" ng-model="searchText" placeholder="Search text.." aria-label="...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="clickSearch(form)">Search!</button>
+          </span>
+        </div>
+        <div ng-show="message != '' || results['result-count']" class="panel panel-default">
+          <div class="panel-body">
+            <div ng-show="message != ''">{{message}}</div>
+            <div ng-show="results['result-count'] > 0">
+              <table class="search-results-stats">
+                <tr><td><strong>Total Results:</strong></td><td>{{results['result-count']}}</td></tr>
+                <tr><td><strong>Page:</strong></td><td>{{results['current-page']}} of {{results['page-count']}}</td></tr>
+              </table>
+              <pagination total-items="results['result-count']" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" ng-click="search()"></pagination>
+              <table class="table table-bordered">
+                <th ng-repeat="(key,value) in results['results'][0]">{{key}}</th>
+                <tr ng-repeat="result in results['results']">
+                  <td ng-repeat="(key,value) in result">
+                    <span ng-show="key == 'uri'" ng-bind-html="to_trusted(value)"></span>
+                    <span ng-hide="key == 'uri'">{{value}}</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div ng-show="results['result-count'] == 0">
+              <div class="alert alert-info" role="alert"><strong>Warning!</strong> No data found for given search...</div>
+            </div>
+          </div>
+        </div>
+        <div ng-hide="message != '' || results['result-count']" class="panel panel-default">
+          <div class="panel-body">
+            <h1>Getting Started</h1>
+            <ol>
+              <li>Select a database</li>
+              <li>Select a document type</li>
+              <li>Type any desired constraints</li>
+              <li>Hit search!</li>
+            </ol>
           </div>
         </div>
       </div>
-      <div ng-hide="message != '' || results['result-count']" class="panel panel-default">
-        <div class="panel-body">
-          <h1>Getting Started</h1>
-          <ol>
-            <li>Select a database</li>
-            <li>Select a document type</li>
-            <li>Type any desired constraints</li>
-            <li>Hit search!</li>
-          </ol>
-        </div>
-      </div>
-    </div>
+    </form>
   </div>
 </div>

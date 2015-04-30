@@ -91,12 +91,32 @@ angular.module('demoApp')
       }
     };
 
-    $scope.clickSearch = function(){
-      $scope.currentPage = 1;
-      $scope.search();
+    $scope.clickSearch = function(form){
+      if(form.$valid) {
+        $scope.currentPage = 1;
+        $scope.search();
+      }
     };
 
     $scope.search = function(){
+      if ($scope.selectedDatabase === '' || $scope.selectedDocType === '' 
+        || $scope.selectedQuery === '' || $scope.selectedView === ''){
+        var missing = '';
+        if ($scope.selectedDatabase === ''){
+          missing = 'database'
+        }
+        if ($scope.selectedDocType === ''){
+          missing = 'DocType'
+        }
+        if ($scope.selectedQuery === ''){
+          missing = 'query'
+        }
+        if ($scope.selectedView === ''){
+          missing = 'view'
+        }
+        $scope.message = 'Error!!!! Please make sure you have a '+missing+' selected!';
+        return;
+      }
       $scope.message = 'Searching....';
       $scope.results = {};
       $http.get('/api/search',{
@@ -132,7 +152,7 @@ angular.module('demoApp')
         $scope.currentPage = $scope.results['current-page'];
       }).error(function(data, status){
         if (status == 500){
-          $scope.message = "Server Error";
+          $scope.message = "Server Error, please make sure you didn't change the inputs";
         }
       });
     };
