@@ -1,5 +1,5 @@
 xquery version "1.0-ml";
-module namespace to-json = "http://marklogic.com/ps/lib/to-json";
+module namespace to-json = "http://marklogic.com/data-explore/lib/to-json";
 
 import module namespace json = "http://marklogic.com/xdmp/json"
     at "/MarkLogic/json/json.xqy";

@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 import module namespace la = "http://marklogic.com/ps/lib/adhoc" at "/server/lib/l-adhoc.xqy";
-import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/server/lib/l-to-json.xqy";
+import module namespace to-json = "http://marklogic.com/data-explore/lib/to-json" at "/server/lib/to-json-lib.xqy";
 (: Expected output 
 
     ['Documents','other',....]

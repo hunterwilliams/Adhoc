@@ -2,7 +2,7 @@ import module namespace search-lib = "http://marklogic.com/data-explore/lib/sear
   at "/server/lib/search-lib.xqy";
 import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
   at "/server/lib/config.xqy";
-import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/server/lib/l-to-json.xqy";
+import module namespace to-json = "http://marklogic.com/data-explore/lib/to-json" at "/server/lib/to-json-lib.xqy";
 
 
 declare function local:xdmpEval($xquery as xs:string, $vars as item()*, $db as xs:string)
