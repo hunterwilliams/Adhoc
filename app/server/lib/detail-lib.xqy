@@ -2,7 +2,7 @@ xquery version "1.0-ml";
 
 module namespace detail-lib = "http://www.marklogic.com/data-explore/lib/detail-lib";
 
-import module namespace slice = "http://marklogic.com/transitive-closure-slice" at "/server/lib/l-slice.xqy";
+import module namespace slice = "http://marklogic.com/transitive-closure-slice" at "/server/lib/slice.xqy";
 
 declare function detail-lib:database-exists($database as xs:string){
   try {
