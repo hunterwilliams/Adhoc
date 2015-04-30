@@ -166,8 +166,8 @@
                     $sec_eval_option)
                 let $_ := l:create-amp(
                     "search",
-                    "http://marklogic.com/ps/lib/searchyy",
-                    "/lib/search.xqy",
+                    "http://marklogic.com/data-explore/lib/search-lib",
+                    "/lib/search-lib.xqy",
                     "admin",
                     $modules-dbid,
                     $sec_eval_option)

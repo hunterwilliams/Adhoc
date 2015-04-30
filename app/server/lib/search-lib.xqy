@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace searchyy = "http://marklogic.com/ps/lib/searchyy";
+module namespace search-lib = "http://marklogic.com/data-explore/lib/search-lib";
 
 import module namespace functx = "http://www.functx.com"
   at "/MarkLogic/functx/functx-1.0-nodoc-2007-01.xqy";
@@ -18,16 +18,16 @@ import module namespace admin = "http://marklogic.com/xdmp/admin"
 declare namespace db="http://marklogic.com/xdmp/database";
 declare option xdmp:mapping "false";
 
-declare function searchyy:page-count($sr as element())
+declare function search-lib:page-count($sr as element())
 {
   fn:ceiling(xs:int($sr/@total) div xs:int($sr/@page-length))
 };
 
-declare function searchyy:result-count($sr as element()){
+declare function search-lib:result-count($sr as element()){
   fn:format-number(xs:int($sr/@total), "#,###")
 };
 
-declare function searchyy:index-exists($index as xs:string,$namespace as xs:string, $db as xs:string)
+declare function search-lib:index-exists($index as xs:string,$namespace as xs:string, $db as xs:string)
 {
   let $config := admin:get-configuration()
   return try {fn:exists(admin:database-get-range-element-indexes($config, xdmp:database($db) )[./fn:tokenize(db:localname/text()," ")=$index and ./db:namespace-uri/text()=$namespace])}
@@ -35,7 +35,7 @@ declare function searchyy:index-exists($index as xs:string,$namespace as xs:stri
   
 };
 
-declare function searchyy:inDir(
+declare function search-lib:inDir(
   $constraint-qtext as xs:string,
   $right as schema-element(cts:query)) 
 as schema-element(cts:query)
@@ -57,7 +57,7 @@ as schema-element(cts:query)
       $query/node()} 
 };
 
-declare function searchyy:search($params as map:map, $useDB as xs:string){
+declare function search-lib:search($params as map:map, $useDB as xs:string){
   let $searchText := fn:concat("",map:get($params, "searchText"))
   let $searchFacet :=  map:get($params, "selectedfacet")
   let $additional-query := map:get($params, "additionalquery")
@@ -109,7 +109,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       </term>
       <constraint name="inDir">
         <custom facet="false">
-          <parse apply="inDir" ns="http://marklogic.com/ps/lib/searchyy" at="/server/lib/search.xqy"/>
+          <parse apply="inDir" ns="http://marklogic.com/data-explore/lib/search-lib" at="/server/lib/search-lib.xqy"/>
         </custom>
       </constraint>
       <grammar>
@@ -138,7 +138,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       {
         if ($doc-type = ()) then
           ()
-        else if (searchyy:index-exists("lastModified", "http://test", $db)) then
+        else if (search-lib:index-exists("lastModified", "http://test", $db)) then
           <constraint name="modifiedDate">
             <range type="xs:dateTime">
               <element ns="http://test" name="lastModified"/>
@@ -161,19 +161,19 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       }
     </options>
 
-  let $search-response := searchyy:get-results($useDB, $final-search, $options, $page, $cfg:pagesize)
+  let $search-response := search-lib:get-results($useDB, $final-search, $options, $page, $cfg:pagesize)
 
   return
     (: { result-count:4, current-page:4, page-count:10, results:[]}:)
     if ($search-response//search:result) then
       let $results :=
         for $result in $search-response/search:result
-          return searchyy:result-to-view($result,$view,$useDB)
+          return search-lib:result-to-view($result,$view,$useDB)
       return
         <output>
-          <result-count>{searchyy:result-count($search-response)}</result-count>
+          <result-count>{search-lib:result-count($search-response)}</result-count>
           <current-page>{$page}</current-page>
-          <page-count>{searchyy:page-count($search-response)}</page-count>
+          <page-count>{search-lib:page-count($search-response)}</page-count>
           <result-headers><header>URI</header>{for $c in $view/columns/column return <header>{$c/@name/string()}</header>}</result-headers>
           <results>{$results}</results>
         </output>
@@ -183,7 +183,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       </output>
   };
 
-  declare function searchyy:result-to-view($result as element(),$view as element(), $useDB as xs:string){
+  declare function search-lib:result-to-view($result as element(),$view as element(), $useDB as xs:string){
     let $uri := $result/fn:data(@uri)
     let $doc :=  ld:get-document($uri,$useDB)
 
@@ -218,12 +218,12 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       </result>
   };
 
-  declare function searchyy:make-element($name,$value){
+  declare function search-lib:make-element($name,$value){
     element {$name} { ($value) }
   };
 
 
-  declare function searchyy:get-results($db,$search as xs:string+,$options as element(search:options)?,$page,$page-size){
+  declare function search-lib:get-results($db,$search as xs:string+,$options as element(search:options)?,$page,$page-size){
     xdmp:eval(
     'xquery version "1.0-ml";
     import module namespace search = "http://marklogic.com/appservices/search"

@@ -1,5 +1,5 @@
-import module namespace searchyy = "http://marklogic.com/ps/lib/searchyy"
-  at "/server/lib/search.xqy";
+import module namespace search-lib = "http://marklogic.com/data-explore/lib/search-lib"
+  at "/server/lib/search-lib.xqy";
 import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
   at "/server/lib/config.xqy";
 import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/server/lib/l-to-json.xqy";
@@ -19,7 +19,7 @@ declare function local:xdmpEval($xquery as xs:string, $vars as item()*, $db as x
 declare function local:xdmpInvoke($module as xs:string, $params as item()*, $db as xs:string)
 {
    xdmp:invoke(
-    "/controller/search.xqy",
+    "/controller/search-lib.xqy",
     $params,
     <options xmlns="xdmp:eval">
       <database>{ xdmp:database($db) }</database>
@@ -120,16 +120,16 @@ declare function local:get-result()
       ()
 
   return
-    searchyy:search($searchParams,$database)
+    search-lib:search($searchParams,$database)
 };
 
 declare function local:get-json(){
 
   (:
     <output>
-      <result-count>{searchyy:result-count($search-response)}</result-count>
+      <result-count>{search-lib:result-count($search-response)}</result-count>
       <current-page>{$page}</current-page>
-      <page-count>{searchyy:page-count($search-response)}</page-count>
+      <page-count>{search-lib:page-count($search-response)}</page-count>
       <results>{$results}</results>
     </output>
   :)
