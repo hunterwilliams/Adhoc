@@ -4,7 +4,7 @@ module namespace cu = "http://check-user" ;
 
 import module "http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy";
 import module namespace admin = "http://marklogic.com/xdmp/admin" at "/MarkLogic/admin.xqy";
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config" at "/server/lib/config.xqy";
 
 declare function cu:is-admin() as xs:boolean
 {

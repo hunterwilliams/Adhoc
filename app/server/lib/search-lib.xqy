@@ -6,7 +6,7 @@ import module namespace functx = "http://www.functx.com"
   at "/MarkLogic/functx/functx-1.0-nodoc-2007-01.xqy";
 import module namespace search = "http://marklogic.com/appservices/search"
   at "/MarkLogic/appservices/search/search.xqy";
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
   at "/server/lib/config.xqy";
 import module namespace lx = "http://marklogic.com/ps/lib/xml"
   at "/server/lib/l-xml.xqy";

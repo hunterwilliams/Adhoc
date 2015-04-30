@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace cfg = "http://www.marklogic.com/ps/lib/config";
+module namespace cfg = "http://www.marklogic.com/data-explore/lib/config";
 
 (: START OF PROPERTIES YOU CAN MODIFY :)
 declare variable $cfg:app-title := "Data-Explorer";
@@ -57,7 +57,7 @@ declare variable $defaultDb := "Documents";
 
 declare variable $PROLOG := 
   fn:concat('
-    import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
+    import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
       at "/server/lib/config.xqy";
     import module namespace search = "http://marklogic.com/appservices/search"
       at "/MarkLogic/appservices/search/search.xqy";',

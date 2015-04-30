@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config" at "/server/lib/config.xqy";
 import module namespace cu = "http://check-user"  at "/server/lib/check-user.xqy";
 declare variable $error:errors as node()* external;
 

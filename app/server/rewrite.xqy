@@ -1,7 +1,7 @@
 xquery version "1.0-ml";
 
 import module namespace rest="http://marklogic.com/appservices/rest" at "/MarkLogic/appservices/utils/rest.xqy";
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config" at "/server/lib/config.xqy";
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config" at "/server/lib/config.xqy";
 
 import module namespace endpoints="http://example.com/ns/endpoints" at "/server/lib/endpoints.xqy";
 import module namespace ld = "http://marklogic.com/ps/lib/detail" at "/server/lib/l-detail.xqy";

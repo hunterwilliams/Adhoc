@@ -1,7 +1,7 @@
 xquery version "1.0-ml";
 
 module namespace la = "http://marklogic.com/ps/lib/adhoc";
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
   at "/server/lib/config.xqy";
 
 declare function la:get-databases() as xs:string*{

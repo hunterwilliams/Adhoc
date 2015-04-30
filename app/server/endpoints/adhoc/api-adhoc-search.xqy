@@ -1,6 +1,6 @@
 import module namespace search-lib = "http://marklogic.com/data-explore/lib/search-lib"
   at "/server/lib/search-lib.xqy";
-import module namespace cfg = "http://www.marklogic.com/ps/lib/config"
+import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
   at "/server/lib/config.xqy";
 import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/server/lib/l-to-json.xqy";
 
