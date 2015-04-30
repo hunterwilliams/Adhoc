@@ -212,7 +212,7 @@
         (: ******************************************************** :)
             (: low end of 10 port range used for this deployment :)
             declare variable $port-number as xs:integer := 8006;
-            declare variable $db-name := "MLUM";
+            declare variable $db-name := "Data-Explore";
             
             (: Set to location of forests :)
              declare variable $forest-location := ();

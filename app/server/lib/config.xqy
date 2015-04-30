@@ -6,7 +6,7 @@ module namespace cfg = "http://www.marklogic.com/data-explore/lib/config";
 declare variable $cfg:app-title := "Data-Explorer";
 declare variable $cfg:app-role := "data-explorer-user";
 declare variable $cfg:admin := "admin";
-declare variable $cfg:modules-db := "MLUM-Modules";
+declare variable $cfg:modules-db := "Data-Explore-Modules";
 
 declare variable $cfg:create-user := fn:false();
 
