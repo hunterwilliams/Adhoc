@@ -2,7 +2,7 @@ xquery version "1.0-ml";
 
 module namespace endpoints="http://example.com/ns/endpoints";
 
-import module namespace  cu = "http://check-user" at "/server/lib/check-user.xqy" ;
+import module namespace  check-user-lib = "http://www.marklogic.com/data-explore/lib/check-user-lib" at "/server/lib/check-user-lib.xqy" ;
 
 declare namespace rest="http://marklogic.com/appservices/rest";
 
@@ -51,8 +51,8 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
         </request>
 
         {
-            if (cu:is-logged-in() and
-                (cu:is-tester() or cu:is-admin())) then
+            if (check-user-lib:is-logged-in() and
+                (check-user-lib:is-explorer() or check-user-lib:is-admin())) then
               (
                 <request uri="^/api/detail/*/*" endpoint="{$endpoints:API-DETAIL}">
                     <http method="GET"/>
@@ -87,7 +87,7 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
               ()
         }
         {
-          if (cu:is-logged-in()) then
+          if (check-user-lib:is-logged-in()) then
             ()
           else
             ()

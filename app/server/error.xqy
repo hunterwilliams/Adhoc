@@ -1,7 +1,7 @@
 xquery version "1.0-ml";
 
 import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config" at "/server/lib/config.xqy";
-import module namespace cu = "http://check-user"  at "/server/lib/check-user.xqy";
+import module namespace check-user-lib = "http://www.marklogic.com/data-explore/lib/check-user-lib"  at "/server/lib/check-user-lib.xqy";
 declare variable $error:errors as node()* external;
 
 xdmp:set-response-content-type("text/html"),
@@ -27,7 +27,7 @@ xdmp:set-response-content-type("text/html"),
                     else if (cu:is-admin()) then
                         <p>{xdmp:quote($error:errors)}</p>
                     else
-                        <p>{xdmp:quote($error:errors)}</p>
+                        ()
                     }
                     </div>
                 </div>

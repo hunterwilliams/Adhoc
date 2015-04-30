@@ -1,8 +1,8 @@
 xquery version "1.0-ml";
  
-module namespace cd = "http://check-database" ;
+module namespace check-database-lib = "http://marklogic.com/data-explore/lib/check-database-lib" ;
 
-declare function cd:check-database() {
+declare function check-database-lib:check-database() {
     let $db := xdmp:database()
     let $db-name := xdmp:database-name($db)
     return 

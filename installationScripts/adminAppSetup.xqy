@@ -159,8 +159,8 @@
             let $modules-dbid := xdmp:database($modules-database-name)
                 let $_ := l:create-amp(
                     "get-user-id",
-                    "http://check-user",
-                    "/lib/check-user.xqy",
+                    "http://www.marklogic.com/data-explore/lib/check-user-lib",
+                    "/lib/check-user-lib.xqy",
                     "admin",
                     $modules-dbid,
                     $sec_eval_option)

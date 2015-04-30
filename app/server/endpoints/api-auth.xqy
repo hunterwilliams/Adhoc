@@ -2,7 +2,7 @@ xquery version "1.0-ml";
  
 import module "http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy";
 
-import module namespace cd = "http://check-database" at "/server/lib/check-database.xqy" ;
+import module namespace cd = "http://marklogic.com/data-explore/lib/check-database-lib" at "/server/lib/check-database-lib.xqy" ;
 
 declare function local:login(){
     cd:check-database(),
