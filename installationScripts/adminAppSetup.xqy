@@ -171,8 +171,8 @@
                     "admin",
                     $modules-dbid,
                     $sec_eval_option)
-                let $namespace-detail := "http://marklogic.com/ps/lib/detail"
-                let $lib-detail-uri := "/lib/l-detail.xqy"
+                let $namespace-detail := "http://www.marklogic.com/data-explore/lib/detail-lib"
+                let $lib-detail-uri := "/lib/detail-lib.xqy"
                 let $_ := l:create-amp(
                     "get-permissions",
                     $namespace-detail,

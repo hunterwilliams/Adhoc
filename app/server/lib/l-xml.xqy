@@ -9,9 +9,6 @@ module namespace lx = "http://marklogic.com/ps/lib/xml";
 
 import module namespace functx = "http://www.functx.com" at "/MarkLogic/functx/functx-1.0-nodoc-2007-01.xqy";   
 
-
-
-
 (: pretty print stylesheet :)
 declare variable $pp-ss :=
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">

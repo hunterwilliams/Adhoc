@@ -1,5 +1,5 @@
 xquery version "1.0-ml";
-import module namespace ld = "http://marklogic.com/ps/lib/detail" at "/server/lib/l-detail.xqy";
+import module namespace detail-lib = "http://www.marklogic.com/data-explore/lib/detail-lib" at "/server/lib/detail-lib.xqy";
 import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/server/lib/l-to-json.xqy";
 (: Expected output 
 
@@ -14,11 +14,11 @@ import module namespace to-json = "http://marklogic.com/ps/lib/to-json" at "/ser
 	:)
 
 declare function local:get-json($uri as xs:string, $db as xs:string){
-	let $doc 		 := ld:get-document($uri,$db)/element()
+	let $doc 		 :=detail-lib:get-document($uri,$db)/element()
     let $docText     := fn:normalize-space(fn:replace(xdmp:quote($doc),'"', '\\"'))
 	let $doctype 	 := fn:local-name( $doc )
-    let $collections := ld:get-collections($uri,$db)
-	let $permissions := ld:get-permissions($uri,$db)
+    let $collections :=detail-lib:get-collections($uri,$db)
+	let $permissions :=detail-lib:get-permissions($uri,$db)
 	let $related 	 := ()
 
     let $permissions-json := to-json:seq-to-array-json(to-json:xml-obj-to-json($permissions))
@@ -45,7 +45,7 @@ declare function local:get-details(){
     let $uri 	:= xdmp:url-decode(fn:substring-after($path,$first-part))
     return 
     	if (fn:count($tokens) > 4) then
-    		if (ld:database-exists($db)) then
+    		if (detail-lib:database-exists($db)) then
     			(xdmp:set-response-code(200,"Success"),local:get-json($uri,$db))
     		else
     			(xdmp:set-response-code(400,fn:concat("Invalid Database:",$db)))

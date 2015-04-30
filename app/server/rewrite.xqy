@@ -4,7 +4,7 @@ import module namespace rest="http://marklogic.com/appservices/rest" at "/MarkLo
 import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config" at "/server/lib/config.xqy";
 
 import module namespace endpoints="http://example.com/ns/endpoints" at "/server/lib/endpoints.xqy";
-import module namespace ld = "http://marklogic.com/ps/lib/detail" at "/server/lib/l-detail.xqy";
+import module namespace detail-lib = "http://www.marklogic.com/data-explore/lib/detail-lib" at "/server/lib/detail-lib.xqy";
 
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 
@@ -21,7 +21,7 @@ let $uri :=
   else if (empty($rewrite)) then
     let $path := fn:concat("/client",$path)
     return 
-    	if (fn:exists(ld:get-document($path,$cfg:modules-db))) then
+    	if (fn:exists(detail-lib:get-document($path,$cfg:modules-db))) then
     		$path
 	    else if (fn:starts-with($path, "/client/app/") or fn:starts-with($path, "/client/bower_components/") 
 	    	or fn:starts-with($path, "/client/components/") or fn:starts-with($path, "/client/css/")

@@ -8,10 +8,8 @@ import module namespace search = "http://marklogic.com/appservices/search"
   at "/MarkLogic/appservices/search/search.xqy";
 import module namespace cfg = "http://www.marklogic.com/data-explore/lib/config"
   at "/server/lib/config.xqy";
-import module namespace lx = "http://marklogic.com/ps/lib/xml"
-  at "/server/lib/l-xml.xqy";
-import module namespace ld = "http://marklogic.com/ps/lib/detail"
-  at "/server/lib/l-detail.xqy";
+import module namespace detail-lib = "http://www.marklogic.com/data-explore/lib/detail-lib"
+  at "/server/lib/detail-lib.xqy";
 import module namespace admin = "http://marklogic.com/xdmp/admin" 
       at "/MarkLogic/admin.xqy";
 
@@ -185,7 +183,7 @@ declare function search-lib:search($params as map:map, $useDB as xs:string){
 
   declare function search-lib:result-to-view($result as element(),$view as element(), $useDB as xs:string){
     let $uri := $result/fn:data(@uri)
-    let $doc :=  ld:get-document($uri,$useDB)
+    let $doc := detail-lib:get-document($uri,$useDB)
 
     let $view-xqy := fn:concat($cfg:namespaces,
         "

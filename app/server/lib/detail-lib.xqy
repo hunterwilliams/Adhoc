@@ -1,10 +1,10 @@
 xquery version "1.0-ml";
 
-module namespace ld = "http://marklogic.com/ps/lib/detail";
+module namespace detail-lib = "http://www.marklogic.com/data-explore/lib/detail-lib";
 
 import module namespace slice = "http://marklogic.com/transitive-closure-slice" at "/server/lib/l-slice.xqy";
 
-declare function ld:database-exists($database as xs:string){
+declare function detail-lib:database-exists($database as xs:string){
   try {
     let $x := xdmp:database($database)
     return fn:true()
@@ -14,7 +14,7 @@ declare function ld:database-exists($database as xs:string){
   }
 };
 
-declare function ld:find-related-items-by-document($document,$db as xs:string){
+declare function detail-lib:find-related-items-by-document($document,$db as xs:string){
 	let $map := map:map()
 	let $_ := 
 		for $uri in (slice:getAllRelatedObjectsWithDefaultMap($document,$db))/fn:base-uri()
@@ -33,7 +33,7 @@ declare function ld:find-related-items-by-document($document,$db as xs:string){
 	return $map
 };
 
-declare function ld:print-role-name($role-id as xs:unsignedLong){
+declare function detail-lib:print-role-name($role-id as xs:unsignedLong){
    let $role-name := xdmp:eval(
   'xquery version "1.0-ml";
   import module namespace sec="http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy";
@@ -45,17 +45,17 @@ declare function ld:print-role-name($role-id as xs:unsignedLong){
   </options>)
    return <role-name>{$role-name}</role-name>
 };
-declare function ld:print-permission($default-permission as element(sec:permission)){
+declare function detail-lib:print-permission($default-permission as element(sec:permission)){
     let $capability := $default-permission/sec:capability/text()
     let $role-id := $default-permission/sec:role-id
     return 
     <permission>
         <capability>{$capability}</capability>
-        {ld:print-role-name($role-id)}
+        {detail-lib:print-role-name($role-id)}
     </permission>
 };
 
-declare function ld:get-permissions($document-uri as xs:string, $db as xs:string){
+declare function detail-lib:get-permissions($document-uri as xs:string, $db as xs:string){
 	let $permissions := xdmp:eval(
   'xquery version "1.0-ml";
   declare variable $document-uri as xs:string external;
@@ -64,10 +64,10 @@ declare function ld:get-permissions($document-uri as xs:string, $db as xs:string
   <options xmlns="xdmp:eval">
     <database>{xdmp:database($db)}</database>
   </options>)
-  return ld:print-permission($permissions)
+  return detail-lib:print-permission($permissions)
 };
 
-declare function ld:get-collections($document-uri as xs:string, $db as xs:string){
+declare function detail-lib:get-collections($document-uri as xs:string, $db as xs:string){
 	let $collections := xdmp:eval(
   'xquery version "1.0-ml";
   declare variable $document-uri as xs:string external;
@@ -79,7 +79,7 @@ declare function ld:get-collections($document-uri as xs:string, $db as xs:string
   return $collections
 };
 
-declare function ld:get-document($document-uri as xs:string, $db as xs:string){
+declare function detail-lib:get-document($document-uri as xs:string, $db as xs:string){
 	let $doc := xdmp:eval(
   'xquery version "1.0-ml";
   declare variable $document-uri as xs:string external;
