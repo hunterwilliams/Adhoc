@@ -13,3 +13,6 @@ $ ant
 
 *** Usage:
 Give the data-explorer role to anyone who is not an admin that requires access to the app.
+
+*** Search Options
+The default search options are in place. There is also a "inDir" search option that allows you to do directory queries from the search box

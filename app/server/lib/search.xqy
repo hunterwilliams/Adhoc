@@ -35,6 +35,28 @@ declare function searchyy:index-exists($index as xs:string,$namespace as xs:stri
   
 };
 
+declare function searchyy:inDir(
+  $constraint-qtext as xs:string,
+  $right as schema-element(cts:query)) 
+as schema-element(cts:query)
+{
+  let $query :=
+  <root>{
+    let $dir := fn:string($right//cts:text/text())
+    return
+        cts:directory-query($dir,"infinity")
+      }
+  </root>/*
+  return
+  (: add qtextconst attribute so that search:unparse will work - 
+     required for some search library functions :)
+  element { fn:node-name($query) }
+    { attribute qtextconst { 
+        fn:concat($constraint-qtext, fn:string($right//cts:text)) },
+      $query/@*,
+      $query/node()} 
+};
+
 declare function searchyy:search($params as map:map, $useDB as xs:string){
   let $searchText := fn:concat("",map:get($params, "searchText"))
   let $searchFacet :=  map:get($params, "selectedfacet")
@@ -66,6 +88,7 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
       ()
 
   let $options :=
+
     <options xmlns="http://marklogic.com/appservices/search">
       <additional-query>
       {
@@ -81,6 +104,34 @@ declare function searchyy:search($params as map:map, $useDB as xs:string){
         <max-matches>3</max-matches>
         <max-snippet-chars>200</max-snippet-chars>
       </transform-results>
+      <term apply="term">
+        <empty apply="all-results"/>
+      </term>
+      <constraint name="inDir">
+        <custom facet="false">
+          <parse apply="inDir" ns="http://marklogic.com/ps/lib/searchyy" at="/server/lib/search.xqy"/>
+        </custom>
+      </constraint>
+      <grammar>
+        <quotation>"</quotation>
+        <implicit>
+          <cts:and-query strength="20" xmlns:cts="http://marklogic.com/cts"/>
+        </implicit>
+        <starter strength="30" apply="grouping" delimiter=")">(</starter>
+        <starter strength="40" apply="prefix" element="cts:not-query">-</starter>
+        <joiner strength="10" apply="infix" element="cts:or-query" tokenize="word">OR</joiner>
+        <joiner strength="20" apply="infix" element="cts:and-query" tokenize="word">AND</joiner>
+        <joiner strength="30" apply="infix" element="cts:near-query" tokenize="word">NEAR</joiner>
+        <joiner strength="30" apply="near2" consume="2" element="cts:near-query">NEAR/</joiner>
+        <joiner strength="32" apply="boost" element="cts:boost-query" tokenize="word">BOOST</joiner>
+        <joiner strength="35" apply="not-in" element="cts:not-in-query" tokenize="word">NOT_IN</joiner>
+        <joiner strength="50" apply="constraint">:</joiner>
+        <joiner strength="50" apply="constraint" compare="LT" tokenize="word">LT</joiner>
+        <joiner strength="50" apply="constraint" compare="LE" tokenize="word">LE</joiner>
+        <joiner strength="50" apply="constraint" compare="GT" tokenize="word">GT</joiner>
+        <joiner strength="50" apply="constraint" compare="GE" tokenize="word">GE</joiner>
+        <joiner strength="50" apply="constraint" compare="NE" tokenize="word">NE</joiner>
+      </grammar>
       {
         map:get($params, "facets")
       }
