@@ -3,8 +3,10 @@
 angular.module('demoApp')
   .controller('AdhocCtrl', function ($scope, $http, $sce, Auth, User) {
 
-    $scope.selectedDatabase;//Selected Database
-    $scope.selectedDocType;//Selected Doctype
+    $scope.selectedDatabase = '';
+    $scope.selectedDocType = '';
+    $scope.selectedQuery = '';
+    $scope.selectedView = '';
     $scope.databases = [];
     $scope.doctypes = [];
     $scope.queries = [];
@@ -99,19 +101,19 @@ angular.module('demoApp')
     };
 
     $scope.search = function(){
-      if ($scope.selectedDatabase === '' || $scope.selectedDocType === '' 
-        || $scope.selectedQuery === '' || $scope.selectedView === ''){
+      if (!$scope.selectedDatabase || !$scope.selectedDocType 
+        || !$scope.selectedQuery || !$scope.selectedView){
         var missing = '';
-        if ($scope.selectedDatabase === ''){
+        if (!$scope.selectedDatabase){
           missing = 'database'
         }
-        if ($scope.selectedDocType === ''){
+        else if (!$scope.selectedDocType){
           missing = 'DocType'
         }
-        if ($scope.selectedQuery === ''){
+        else if (!$scope.selectedQuery){
           missing = 'query'
         }
-        if ($scope.selectedView === ''){
+        else if (!$scope.selectedView){
           missing = 'view'
         }
         $scope.message = 'Error!!!! Please make sure you have a '+missing+' selected!';
