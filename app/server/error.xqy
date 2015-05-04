@@ -22,9 +22,9 @@ xdmp:set-response-content-type("text/html"),
                     <div class="section" id="dbcontent">
                     <h2>Error </h2>
                     <p>There has been an error.</p>
-                    {if (fn:not(cu:is-logged-in())) then
+                    {if (fn:not(check-user-lib:is-logged-in())) then
                         <p>{xdmp:quote($error:errors)}</p>
-                    else if (cu:is-admin()) then
+                    else if (check-user-lib:is-admin()) then
                         <p>{xdmp:quote($error:errors)}</p>
                     else
                         ()
