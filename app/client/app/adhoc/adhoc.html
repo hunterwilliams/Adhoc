@@ -49,8 +49,8 @@
             <div ng-show="message != ''">{{message}}</div>
             <div ng-show="results['result-count'] > 0">
               <table class="search-results-stats">
-                <tr><td><strong>Total Results:</strong></td><td>{{results['result-count']}}</td></tr>
-                <tr><td><strong>Page:</strong></td><td>{{results['current-page']}} of {{results['page-count']}}</td></tr>
+                <tr><td><strong>Total Results:</strong></td><td>{{results['result-count'] | number}}</td></tr>
+                <tr><td><strong>Page:</strong></td><td>{{results['current-page']}} of {{results['page-count'] | number}}</td></tr>
               </table>
               <pagination total-items="results['result-count']" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" ng-click="search()"></pagination>
               <table class="table table-bordered">
