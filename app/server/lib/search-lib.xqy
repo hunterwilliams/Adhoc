@@ -22,7 +22,7 @@ declare function search-lib:page-count($sr as element())
 };
 
 declare function search-lib:result-count($sr as element()){
-  fn:format-number(xs:int($sr/@total), "#,###")
+  xs:int($sr/@total)
 };
 
 declare function search-lib:index-exists($index as xs:string,$namespace as xs:string, $db as xs:string)
