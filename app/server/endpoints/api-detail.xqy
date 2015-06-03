@@ -14,13 +14,19 @@ import module namespace to-json = "http://marklogic.com/data-explore/lib/to-json
 	:)
 
 declare function local:get-json($uri as xs:string, $db as xs:string){
-	let $doc 		 :=detail-lib:get-document($uri,$db)/element()
+	let $doc         := detail-lib:get-document($uri,$db)/element()
     let $docText     := fn:normalize-space(fn:replace(xdmp:quote($doc),'"', '\\"'))
-	let $doctype 	 := fn:local-name( $doc )
-    let $collections :=detail-lib:get-collections($uri,$db)
-	let $permissions :=detail-lib:get-permissions($uri,$db)
-	let $related 	 := ()
+    let $doctype     := fn:local-name( $doc )
+    let $collections := detail-lib:get-collections($uri,$db)
+    let $permissions := detail-lib:get-permissions($uri,$db)
+    let $related-map := detail-lib:find-related-items-by-document($doc,$db)
+    let $related-items-json :=
+        for $key in map:keys($related-map)
+        let $values := to-json:seq-to-array-json(to-json:string-sequence-to-json(map:get($related-map,$key)))
+        let $item := <item><type>{$key}</type><items>{$values}</items></item>
 
+        return to-json:xml-obj-to-json($item)
+    let $related-json := to-json:seq-to-array-json($related-items-json)
     let $permissions-json := to-json:seq-to-array-json(to-json:xml-obj-to-json($permissions))
 
     let $collections-json := to-json:seq-to-array-json(to-json:string-sequence-to-json($collections))
@@ -31,10 +37,11 @@ declare function local:get-json($uri as xs:string, $db as xs:string){
             <collections>{$collections-json}</collections>
             <permissions>{$permissions-json}</permissions>
             <text>{$docText}</text>
+            <related>{$related-json}</related>
         </output>
 
     let $json := to-json:xml-obj-to-json($xml)
-	return $json
+    return $json
 };
 
 declare function local:get-details(){
