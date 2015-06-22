@@ -16,7 +16,7 @@ declare variable $cfg:pagesize := 10;
 (: does some debug logging when true :)
 declare variable $D := fn:true();
 
-declare variable $NS-MAP := 
+declare variable $cfg:NS-MAP := 
   <namespaces>
     <namespace>
       <abbrv>sample</abbrv>
@@ -45,7 +45,7 @@ declare variable $cfg:getRequestFieldsMap :=
 
 declare variable $cfg:namespaces := 
   let $text :=
-    for $ns in $NS-MAP/namespace
+    for $ns in $cfg:NS-MAP/namespace
     return fn:concat('declare namespace ',$ns/abbrv/text(),'="',$ns/uri/text(),'";')
   return fn:string-join($text)
 ;
