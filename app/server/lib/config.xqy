@@ -84,6 +84,16 @@ declare function cfg:get-document-types($db as xs:string) as xs:string*
   return $name
 };
 
+declare function cfg:getNamespacePrefix($uri as xs:string?) as xs:string?
+{
+  $cfg:NS-MAP/namespace[./uri/text()=$uri]/abbrv/text()
+};
+
+declare function cfg:getNamespaceUri($prefix as xs:string?) as xs:string?
+{
+  $cfg:NS-MAP/namespace[./abbrv/text()=$prefix]/uri/text()
+};
+
 declare function cfg:get-query-names($document-type as xs:string, $database as xs:string)
   as xs:string*
 {
