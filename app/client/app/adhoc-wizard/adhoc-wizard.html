@@ -1,0 +1,63 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div ng-hide="step != 1" class="row">
+      <h1>Step 1 - Upload Example Document XML</h1>
+      <form>
+        <div class="form-group">
+          <label for="uploadedDoc">Example Document (.xml)</label>
+          <input type="file" class="name" name="uploadedDoc" onchange="angular.element(this).scope().changeFile(this.files)" size="50"/></label>
+        </div>
+        <div class="form-group">
+          <label for="type">Query or View</label>
+          <select name="type" ng-model="queryView">
+      	    <option value="query">Query</option>
+      	    <option value="view">View</option>
+    	    </select>
+        </div>
+        <input type="submit" value="Create {{queryView}}" ng-click="upload()" class="btn btn-default"/></p>
+      </form>
+  </div>
+  <div ng-hide="step != 2" class="row">
+    <h1>Step 2 - Choose Relevant Fields</h1>
+      <form>
+        <h2>Edit Adhoc {{wizardForm.type}}</h2>
+        <p>
+          <span>{{wizardForm.type}} Name:</span>
+          <input type="text" required ng-model="formInput.queryViewName" size="20"/>
+        </p>
+        <br/>
+        <h3>Document Name</h3>
+        <p>
+          <span>Root Element:</span>&nbsp;
+          {{wizardForm.rootElement}}
+        </p>
+        <h3>Database Name</h3>
+        <p>
+          <span>Database:</span>
+          <select ng-model="formInput.selectedDatabase" name="database" ng-options="database as database for database in wizardForm.databases" class="form-control" required>
+              <option value="">--Choose Database</option>
+          </select>
+        </p>
+        <h3>Namespaces</h3>
+        <div>prefix = namespace</div><br/><br/>
+        <div ng-repeat="ns in wizardForm.namespaces">{{ns.abbrv}} = {{ns.uri}}</div>
+        <br/>
+          <div class="col-md-3">
+            <h3 ng-hide="wizardForm.type !== 'query'">Form</h3>
+            <h3 ng-hide="wizardForm.type == 'query'">View</h3>
+            <div ng-repeat="field in wizardForm.fields" class="form-group">
+
+              <label for="input{{index+1}}"><span ng-hide="wizardForm.type !== 'query'">Form Field:</span><span ng-hide="wizardForm.type == 'query'">Column Name:</span> {{field.xpath}}</label>
+              <input type="text" class="form-control" ng-model="inputField[$index+1]" id="input{{index+1}}"/>
+            </div>
+            <br/>
+            <button type="submit" ng-click="submitWizard()" class="btn btn-default">Submit</button>
+          </div>
+    </form>
+  </div>
+  <div ng-hide="step != 3" class="row">
+    <h1>Finished!</h1>
+    <span ng-bind-html="to_trusted(wizardResults)"></span>
+  </div>
+</div>

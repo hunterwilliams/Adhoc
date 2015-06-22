@@ -10,6 +10,10 @@ angular.module('demoApp')
     {
       'title': 'Adhoc',
       'link': '/adhoc'
+    },
+    {
+      'title': 'Adhoc Wizard',
+      'link': '/wizard'
     }];
 
     $scope.isCollapsed = true;

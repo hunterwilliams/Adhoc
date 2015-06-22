@@ -22,6 +22,8 @@ declare variable $endpoints:API-USERS           as xs:string := "/server/endpoin
 declare variable $endpoints:API-ADHOC-DATABASES as xs:string := "/server/endpoints/adhoc/api-adhoc-databases.xqy";
 declare variable $endpoints:API-ADHOC-SELECTORS as xs:string := "/server/endpoints/adhoc/api-adhoc-selectors.xqy";
 declare variable $endpoints:API-SEARCH          as xs:string := "/server/endpoints/adhoc/api-adhoc-search.xqy";
+declare variable $endpoints:API-ADHOC-WIZARD as xs:string := "/server/endpoints/adhoc/wizard/api-adhoc-query-wizard.xqy";
+declare variable $endpoints:API-ADHOC-WIZARD-CREATE as xs:string := "/server/endpoints/adhoc/wizard/api-adhoc-query-wizard-create.xqy";
 
 (: README https://github.com/marklogic/ml-rest-lib :)
 
@@ -64,6 +66,26 @@ declare variable $endpoints:ENDPOINTS as element(rest:options) :=
                     <http method="GET"/>
                 </request>,
                 <request uri="^/api/adhoc/*/*" endpoint="{$endpoints:API-ADHOC-SELECTORS}">
+                    <http method="GET"/>
+                </request>,
+                <request uri="^/api/wizard/upload$" endpoint="{$endpoints:API-ADHOC-WIZARD}">
+                    <param name="uploadedDoc"/>
+                    <param name="type"/>                  
+                    <http method="POST"/>
+                </request>,
+                <request uri="^/api/wizard/create$" endpoint="{$endpoints:API-ADHOC-WIZARD-CREATE}">
+                    <param name="prefix"/>
+                    <param name="rootElement"/>
+                    <param name="queryName"/>
+                    <param name="viewName"/>
+                    <param name="queryText"/>
+                    <param name="database"/>   
+                    <param name="submit"/>
+                    {endpoints:numbered-params("formLabel", (1 to 250))}
+                    {endpoints:numbered-params("formLabelHidden", (1 to 250))}
+                    {endpoints:numbered-params("columnName", (1 to 250))}
+                    {endpoints:numbered-params("columnExpr", (1 to 250))}                    
+                    <http method="POST"/>
                     <http method="GET"/>
                 </request>,
                 <request uri="^/api/search$" endpoint="{$endpoints:API-SEARCH}">
