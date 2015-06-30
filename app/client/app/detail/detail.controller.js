@@ -9,7 +9,7 @@ angular.module('demoApp')
 
     $scope.details = Detail.get({database:$scope.database,uri:$scope.uri},function(details){
       $scope.doc = details;
-      $scope.prettyXML = vkbeautify.xml($scope.doc.text);
+      $scope.prettyXML = vkbeautify.xml($scope.doc.xml);
     });
 
     $scope.to_trusted = function(html_code) {

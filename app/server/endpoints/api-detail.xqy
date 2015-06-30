@@ -54,6 +54,7 @@ declare function local:get-json($uri as xs:string, $db as xs:string){
     let $doc         :=detail-lib:get-document($uri,$db)/element()
     let $rawDoc     := xdmp:quote(local:render-document(detail-lib:get-document($uri,$db)))
     let $docText    := fn:normalize-space(fn:replace(xdmp:quote($rawDoc),'"', '\\"'))
+    let $docXml     := fn:normalize-space(fn:replace(xdmp:quote($doc),'"', '\\"'))
     let $doctype     := fn:local-name( $doc )
     let $collections :=detail-lib:get-collections($uri,$db)
     let $permissions :=detail-lib:get-permissions($uri,$db)
@@ -75,6 +76,7 @@ declare function local:get-json($uri as xs:string, $db as xs:string){
             <collections>{$collections-json}</collections>
             <permissions>{$permissions-json}</permissions>
             <text>{$docText}</text>
+            <xml>{$docXml}</xml>
             <related>{$related-json}</related>
         </output>
 
