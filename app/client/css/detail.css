@@ -18,6 +18,9 @@
 .element, .element-heading {
 	padding-left: 10px;
 	margin: 1px;
+	border-color: transparent;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .element:hover, .element-heading:hover {

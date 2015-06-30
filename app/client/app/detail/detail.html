@@ -8,8 +8,7 @@
 				<tabset>
 		    		<tab heading="Data View" active="true">
 		    			<div id="details"><br/><br/>
-		    				<div id="detailTab">
-		    					{{doc.text}}
+		    				<div id="detailTab" ng-bind-html="to_trusted(doc.text)">
 		    				</div>
 		    			</div>
 		    		</tab>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('demoApp')
-  .controller('DetailCtrl', function ($scope, $http, $stateParams, Detail) {
+  .controller('DetailCtrl', function ($scope, $http, $stateParams, $sce, Detail) {
 
     $scope.database = $stateParams.database;
     $scope.uri      = $stateParams.uri;
@@ -11,4 +11,8 @@ angular.module('demoApp')
       $scope.doc = details;
       $scope.prettyXML = vkbeautify.xml($scope.doc.text);
     });
+
+    $scope.to_trusted = function(html_code) {
+        return $sce.trustAsHtml(html_code);
+    };
   });
